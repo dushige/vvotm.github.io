@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-02-20T13:36:06.949Z</updated>
+  <updated>2017-03-15T14:05:16.979Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>windows 生成sshkey 实现github git协议克隆提交代码</title>
+    <link href="http://vvotm.github.io/2017/03/15/windows-sshkey-for-github/"/>
+    <id>http://vvotm.github.io/2017/03/15/windows-sshkey-for-github/</id>
+    <published>2017-03-15T13:41:14.000Z</published>
+    <updated>2017-03-15T14:05:16.979Z</updated>
+    
+    <content type="html">&lt;p&gt;一般的, 我们从github, 或是私有仓库gitlab中克隆代码, 都是使用 git clone &lt;a href=&quot;https://github.com/u/xxx.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/u/xxx.git&lt;/a&gt;, https协议相比git, (git@github.com:u:/xx.git) 会慢很多, 而且要保存帐号密码到本地,才能实现免帐号密码登入. 使用ssh协议就方便很多了.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;废话不多说-开搞&quot;&gt;&lt;a href=&quot;#废话不多说-开搞&quot; class=&quot;headerlink&quot; title=&quot;废话不多说, 开搞&quot;&gt;&lt;/a&gt;废话不多说, 开搞&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;生成密钥,公钥对. 随便找一台linux机器, 执行如下命令&lt;/p&gt;
+ &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ ssh-genkey -t rsa &lt;span class=&quot;_&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt; // 生成&lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt; test.pub 密钥公钥对&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sz &lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt;*  // 下载密钥公钥对到本地 (rz命令不存在, 安装lrzsz)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;复制&lt;code&gt;test.pub&lt;/code&gt;中的内容, 贴到你的github中的sshkey管理.具体导航如下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(确认您登入了啊)点击github右上角的您的头像, 找到&lt;code&gt;settings&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;左边导航菜单招到&lt;code&gt;SSH and GPG keys&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点击右上角 &lt;code&gt;New SSH key&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;随便输入标题&lt;/li&gt;
+&lt;li&gt;把复制的&lt;code&gt;test.pub&lt;/code&gt;内容贴到文本框中.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;本地配置ssh&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;找到你的用户目录, 一般在 &lt;code&gt;C:\Users\您的名字&lt;/code&gt;, 也可以使用下面步骤打开&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;win+r&lt;/code&gt; 打开运行, 输入&lt;code&gt;cmd&lt;/code&gt;, 此时打开了黑窗口&lt;/li&gt;
+&lt;li&gt;输入&lt;code&gt;explorer .&lt;/code&gt; 此时打开的就是你的用户目录了&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;在用户下新建&lt;code&gt;.ssh&lt;/code&gt;目录, windows不能新建, 可在刚打开的黑窗口中输入 &lt;code&gt;mkdir .ssh&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;复制第一步生成的&lt;code&gt;test test.pub&lt;/code&gt; 文件到此目录&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;新建 &lt;code&gt;config&lt;/code&gt; 文件, 并复制如下内容&lt;/p&gt;
+  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 对应github地址&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Host github.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;IdentityFile ~/.ssh/&lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;随便找自己一个仓库地址, 到黑窗口执行&lt;/p&gt;
+ &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; git@github.com:your-name/your-repo.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;是不是稍微变快了点😄, 随便改点东西, commit push 发现是不是不用密码了? 😄&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一般的, 我们从github, 或是私有仓库gitlab中克隆代码, 都是使用 git clone &lt;a href=&quot;https://github.com/u/xxx.git&quot;&gt;https://github.com/u/xxx.git&lt;/a&gt;, https协议相比git, (git@github.com:u:/xx.git) 会慢很多, 而且要保存帐号密码到本地,才能实现免帐号密码登入. 使用ssh协议就方便很多了.&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>swoole-webapp-environment-build</title>
@@ -877,34 +930,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>bash shell 获取命令行参数</title>
-    <link href="http://vvotm.github.io/2016/07/12/bashshell-case-syntax/"/>
-    <id>http://vvotm.github.io/2016/07/12/bashshell-case-syntax/</id>
-    <published>2016-07-12T02:42:00.000Z</published>
-    <updated>2017-02-09T23:09:06.572Z</updated>
-    
-    <content type="html">&lt;p&gt;场景: 写bash脚本经长要获取命令行参数, so…&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;bash-自动获取-本文参考stackoverflow&quot;&gt;&lt;a href=&quot;#bash-自动获取-本文参考stackoverflow&quot; class=&quot;headerlink&quot; title=&quot;bash 自动获取 本文参考stackoverflow&quot;&gt;&lt;/a&gt;bash 自动获取 本文参考&lt;a href=&quot;http://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;stackoverflow&lt;/a&gt;&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt; [[ &lt;span class=&quot;variable&quot;&gt;$#&lt;/span&gt; &lt;span class=&quot;_&quot;&gt;-gt&lt;/span&gt; 0 ]] &lt;span class=&quot;comment&quot;&gt;# 判断有参数, 就获取&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  key=&lt;span class=&quot;variable&quot;&gt;$1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    -u|--user)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$2&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# get -u | --user value&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;shift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      ;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    -p|--password)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$2&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# get -p | --password value&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;shift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      ;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    -h|--help)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Use: (-u | --user set username) : (-p | --password set passwod)&quot;&lt;/span&gt;  &lt;span class=&quot;comment&quot;&gt;# get --help&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;built_in&quot;&gt;shift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      ;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;esac&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;shift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ps: &lt;code&gt;$#&lt;/code&gt; 获取参数个数. &lt;code&gt;$@&lt;/code&gt; 获取所有参数. &lt;code&gt;$1&lt;/code&gt;获取第1个参数. 脚本&lt;a href=&quot;http://unix.stackexchange.com/questions/174566/what-is-the-purpose-of-using-shift-in-shell-scripts&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;shift&lt;/a&gt;关键字的作用就很好理解咯&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;场景: 写bash脚本经长要获取命令行参数, so…&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="bash" scheme="http://vvotm.github.io/tags/bash/"/>
-    
-      <category term="case" scheme="http://vvotm.github.io/tags/case/"/>
-    
-      <category term="command" scheme="http://vvotm.github.io/tags/command/"/>
     
   </entry>
   
