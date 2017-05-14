@@ -60,15 +60,23 @@
 </ul>
 </li>
 </ul>
-<h2 id="编译php5-6"><a href="#编译php5-6" class="headerlink" title="编译php5.6"></a>编译php5.6</h2><p>*. 下载<a href="http://hk1.php.net/get/php-5.6.30.tar.bz2/from/this/mirror" target="_blank" rel="external">php5.6</a></p>
-<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd /opt/softs/</span></span><br><span class="line"><span class="comment"># wget http://hk1.php.net/get/php-5.6.30.tar.bz2/from/this/mirror</span></span><br><span class="line"><span class="comment"># tar -jxvf php-5.6.30.tar.gz2</span></span><br><span class="line"><span class="comment"># cd php-5.6.30</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/opt/php5.6 \</span></span><br></pre></td></tr></table></figure>
-</code></pre><ul>
+<h2 id="编译php5-6"><a href="#编译php5-6" class="headerlink" title="编译php5.6"></a>编译php5.6</h2><ul>
+<li><p>下载<a href="http://hk1.php.net/get/php-5.6.30.tar.bz2/from/this/mirror" target="_blank" rel="external">php5.6</a></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd /opt/softs/</span></span><br><span class="line"><span class="comment"># wget http://hk1.php.net/get/php-5.6.30.tar.bz2/from/this/mirror</span></span><br><span class="line"><span class="comment"># tar -jxvf php-5.6.30.tar.gz2</span></span><br><span class="line"><span class="comment"># cd php-5.6.30</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/opt/php5.6 \</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>安装必要的依赖</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install libxml2-devel freetype-devel libpng-devel openssl-devel </span></span><br><span class="line"><span class="comment"># cd /opt/softs/php-5.6.30</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/opt/php5.6 --with-apxs2=/opt/apache2.4/bin/apxs \</span></span><br><span class="line">    --with-zlib=/usr \</span><br><span class="line">    --enable-bcmath \</span><br><span class="line">    --enable-calendar \</span><br><span class="line">    --enable-mbstring \</span><br><span class="line">    --enable-mbregex \</span><br><span class="line">    --with-mysql=mysqlnd</span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>添加mine类型到apache</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /opt/apache2/conf/httpd.conf</span></span><br><span class="line"></span><br><span class="line">    AddType text/html .php .phtml</span><br><span class="line">    AddType application/x-httpd-php .php .phtml</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>测试是否ok</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo "&lt;?php phpinfo(); " &gt; /opt/apache2.4/htdocs/start.php</span></span><br><span class="line"><span class="comment"># curl http://localhost/start.php</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="重启启动服务"><a href="#重启启动服务" class="headerlink" title="重启启动服务"></a>重启启动服务</h2><ul>
+<li>启动mysql <code>systemctl start mysql</code></li>
+<li>启动apache <code>sysmtectl start httpd</code></li>
 </ul>
 </div></article></div></section><footer><div class="paginator"><a href="/2017/05/12/gospider/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'superwm';
 var disqus_identifier = '2017/05/14/centos7编译apache2-4-php5-6-mysql5-7/';
