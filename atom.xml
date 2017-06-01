@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-06-01T14:56:38.299Z</updated>
+  <updated>2017-06-01T15:05:47.907Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -16,13 +16,14 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>apache-reverse-proxy</title>
+    <title>apache2.4反向代理配置</title>
     <link href="http://vvotm.github.io/2017/06/01/apache-reverse-proxy/"/>
     <id>http://vvotm.github.io/2017/06/01/apache-reverse-proxy/</id>
     <published>2017-06-01T13:31:51.000Z</published>
-    <updated>2017-06-01T14:56:38.299Z</updated>
+    <updated>2017-06-01T15:05:47.907Z</updated>
     
-    <content type="html">&lt;p&gt; 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
+    <content type="html">&lt;p&gt;今天是儿童节, 愿天下所有的宝宝都健康快乐的成长(我也是宝宝😄)….&lt;/p&gt;
+&lt;p&gt;回到正题: 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;场景再现&quot;&gt;&lt;a href=&quot;#场景再现&quot; class=&quot;headerlink&quot; title=&quot;场景再现&quot;&gt;&lt;/a&gt;场景再现&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;&lt;p&gt;话不多说, 上一张图, 快速理解&lt;/p&gt;
@@ -73,7 +74,8 @@
     
     <summary type="html">
     
-      &lt;p&gt; 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
+      &lt;p&gt;今天是儿童节, 愿天下所有的宝宝都健康快乐的成长(我也是宝宝😄)….&lt;/p&gt;
+&lt;p&gt;回到正题: 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
     
     </summary>
     
