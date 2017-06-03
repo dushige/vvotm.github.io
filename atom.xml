@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-06-01T15:05:47.907Z</updated>
+  <updated>2017-06-03T08:11:22.508Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>golang模拟接力赛</title>
+    <link href="http://vvotm.github.io/2017/06/03/golang%E6%A8%A1%E6%8B%9F%E6%8E%A5%E5%8A%9B%E8%B5%9B/"/>
+    <id>http://vvotm.github.io/2017/06/03/golang模拟接力赛/</id>
+    <published>2017-06-03T08:04:54.000Z</published>
+    <updated>2017-06-03T08:11:22.508Z</updated>
+    
+    <content type="html">&lt;p&gt;golang的协程不是很好理解, 今天看到一篇帖子从现实生活中去理解, 发现别有一番风味.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;废话不多说-上代码-需要有一定的基础才能看懂哦&quot;&gt;&lt;a href=&quot;#废话不多说-上代码-需要有一定的基础才能看懂哦&quot; class=&quot;headerlink&quot; title=&quot;废话不多说, 上代码. 需要有一定的基础才能看懂哦&quot;&gt;&lt;/a&gt;废话不多说, 上代码. 需要有一定的基础才能看懂哦&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; main&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;fmt&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;sync&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;time&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; wg sync.WaitGroup&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; track &lt;span class=&quot;keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    wg.Add(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    track = &lt;span class=&quot;built_in&quot;&gt;make&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; Runner(track)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 比赛开始, 一声抢响&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    track &amp;lt;- &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    wg.Wait()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Runner&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(track &lt;span class=&quot;keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; maxExchange = &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;// 定义4个人赛跑&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; exchange &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    baton := &amp;lt;-track &lt;span class=&quot;comment&quot;&gt;// 第一个听到抢响起跑, 后面要等到接力棒后在跑&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fmt.Printf(&lt;span class=&quot;string&quot;&gt;&quot;Runner %d Running To The Baton \n&quot;&lt;/span&gt;, baton)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; baton &amp;lt; maxExchange &amp;#123; &lt;span class=&quot;comment&quot;&gt;// 模拟其他4人在各自起跑线上&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        exchange = baton + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fmt.Printf(&lt;span class=&quot;string&quot;&gt;&quot;Runner %d To The Line \n&quot;&lt;/span&gt;, exchange)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; Runner(track)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    time.Sleep(&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt; * time.Millisecond) &lt;span class=&quot;comment&quot;&gt;// 模拟在跑100毫秒&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; baton == maxExchange &amp;#123; &lt;span class=&quot;comment&quot;&gt;// 赛道上有有定义的4个人在跑, 结束&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fmt.Printf(&lt;span class=&quot;string&quot;&gt;&quot;Runner %d Finished Race Over\n&quot;&lt;/span&gt;, baton)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        wg.Done()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fmt.Printf(&lt;span class=&quot;string&quot;&gt;&quot;Runner %d Exchange With Runner %d\n&quot;&lt;/span&gt;, baton, exchange)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    track &amp;lt;- exchange &lt;span class=&quot;comment&quot;&gt;// 模拟单个参赛者跑完了, 传递接力棒&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;有问题欢迎拍砖&lt;/strong&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;golang的协程不是很好理解, 今天看到一篇帖子从现实生活中去理解, 发现别有一番风味.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang, goroutine" scheme="http://vvotm.github.io/tags/golang-goroutine/"/>
+    
+  </entry>
   
   <entry>
     <title>apache2.4反向代理配置</title>
@@ -975,85 +999,6 @@
     <summary type="html">
     
       &lt;p&gt;最近在学习go, go语言给我最爽的是build后成一个文件, 无需额外的环境以来, 这对发布简直就爽歪歪了。&lt;br&gt;边学边玩的态度, 写了一个go小工具, 基于&lt;a href=&quot;http://www.ishadowsocks.org/&quot;&gt;shawsocks&lt;/a&gt;页面实现自动翻墙。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>mysql主从备份</title>
-    <link href="http://vvotm.github.io/2016/09/15/mysql%E4%B8%BB%E4%BB%8E%E5%A4%87%E4%BB%BD/"/>
-    <id>http://vvotm.github.io/2016/09/15/mysql主从备份/</id>
-    <published>2016-09-15T05:45:37.000Z</published>
-    <updated>2017-02-09T23:09:06.576Z</updated>
-    
-    <content type="html">&lt;p&gt;MySQL的主从复制配置很简单, 帖子已经很多了, 再不厌其烦的写主要是为了下篇配合zabbix做监控存活做准备.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;先说mysql备份策略&quot;&gt;&lt;a href=&quot;#先说mysql备份策略&quot; class=&quot;headerlink&quot; title=&quot;先说mysql备份策略&quot;&gt;&lt;/a&gt;先说mysql备份策略&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;冷备份(不能实时备份)&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;将mysql的dataDir目录打包scp/rsync 到备份服务器. 优点: 简单暴力. 冷备的缺点, mysql版本一致, 后期数据量大了, 备份越来越久.&lt;/li&gt;
-&lt;li&gt;使用mysqldump, (mysqlcopy, mysqlbackup企业版) 自带工具备份, 有点: 简单, 一条命令就ok, mysql版本能向上兼容, 数据量大, 备份慢.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;热备份(及时备份)&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;mysql主从复制, 主mysql开启bin-log, 从mysql读取主bin-log文件名和位置, 写入到从库中(mysql版本需要一致)&lt;/li&gt;
-&lt;li&gt;inotify+rsync inotify检测文件是否发生变动, 如变动使用rsync备份到远程.(使用所有备份, 不只是mysql业务)&lt;/li&gt;
-&lt;li&gt;drbd (分布式块设备) 即时写入.(使用所有备份, 不只是mysql业务)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;配置mysql主从配置&quot;&gt;&lt;a href=&quot;#配置mysql主从配置&quot; class=&quot;headerlink&quot; title=&quot;配置mysql主从配置.&quot;&gt;&lt;/a&gt;配置mysql主从配置.&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;英文好的同学, 直接参照&lt;a href=&quot;https://dev.mysql.com/doc/refman/5.6/en/replication.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;默认环境&lt;/p&gt;
-  &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;192.168.1.100 主mysql5.6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;192.168.1.101 从mysql5.6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;主mysql配置&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编辑my.cnf. (参考多目录下my.cnf的优先级)&lt;/p&gt;
- &lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;bind-address=192.168.1.100&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;server-id=1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;bin_log=/var/log/mysql/mysql-bin.log&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;binlog_do_db=newdatabase # 需要同步的数据库, 不写, 表示全部库&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;添加具有复制权限的用户&lt;/p&gt;
- &lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;GRANT REPLICATION SLAVE ON *.* TO &#39;slave&#39;@&#39;%&#39; IDENTIFIED BY &#39;slave_password&#39;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flush privileges; # 刷新权限&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重启动mysql服务 &lt;code&gt;service mysqld restart | systemctl restart mysqld&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;锁定当前主库的数据状态, 将当前数据状态备份到从库中去.&lt;/p&gt;
- &lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;USE DATABASE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FLUSH TABLES WITH READ LOCK;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;SHOW MASTER STATUS;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+------------------+----------+--------------+------------------+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+------------------+----------+--------------+------------------+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;| mysql-bin.000001 |      107 | newdatabase  |                  |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+------------------+----------+--------------+------------------+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# 此窗口不要动了(如果有改动, 会自动解除锁), 新开一个窗口, 将数据库导出&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# 新窗口mysql回话&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mysqldump -uUsername -pPassword newdatabase &amp;gt; newdatabase-dump.sql&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;exit; # 主配置完成, 关闭退出.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;从mysql配置&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;导入主mysql数据&lt;/p&gt;
- &lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mysql -uUser -pPassword newdatabase &amp;lt; newdatabase-dump.sql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;编辑从my.cnf&lt;/p&gt;
- &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;server-id=2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;relay-log=/var/log/mysql/mysql-relay-bin.log&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;log_bin=/var/log/mysql/mysql-bin.log&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;binlog_do_db=newdatabase&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重启从mysql服务 &lt;code&gt;service mysqld restart | systemctl restart mysqld&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;设置从mysql连接主mysql&lt;/p&gt;
- &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;CHANGE&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;MASTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;TO&lt;/span&gt; MASTER_HOST=&lt;span class=&quot;string&quot;&gt;&#39;192.168.1.100&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MASTER_USER=&lt;span class=&quot;string&quot;&gt;&#39;slave&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MASTER_PASSWORD=&lt;span class=&quot;string&quot;&gt;&#39;slavepassword&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MASTER_LOG_FILE=&lt;span class=&quot;string&quot;&gt;&#39;mysql-bin.000001&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MASTER_LOG_POS=  &lt;span class=&quot;number&quot;&gt;107&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;slave&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;查看是否成功&lt;/p&gt;
- &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;SHOW&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;SLAVE&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;STATUS&lt;/span&gt;\G&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# 出现一下 表明已经ok了&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Slave_IO_Running: Yes&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Slave_SQL_Running: Yes&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;仅作参考, 有问题欢迎拍砖. :)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的主从复制配置很简单, 帖子已经很多了, 再不厌其烦的写主要是为了下篇配合zabbix做监控存活做准备.&lt;/p&gt;
     
     </summary>
     
