@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-06-04T15:50:59.712Z</updated>
+  <updated>2017-06-04T15:53:36.766Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -20,13 +20,13 @@
     <link href="http://vvotm.github.io/2017/06/04/%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9h5%E6%A0%87%E7%AD%BE/"/>
     <id>http://vvotm.github.io/2017/06/04/如何选择h5标签/</id>
     <published>2017-06-04T15:41:12.000Z</published>
-    <updated>2017-06-04T15:50:59.712Z</updated>
+    <updated>2017-06-04T15:53:36.766Z</updated>
     
     <content type="html">&lt;p&gt;最近想弄个h5网站, 学习下h5页面的开发, 就html5标签选择做个小笔记吧&lt;br&gt;HTML5页面多出了很多标签, &lt;code&gt;header&lt;/code&gt;, &lt;code&gt;nav&lt;/code&gt;, &lt;code&gt;article&lt;/code&gt;, &lt;code&gt;footer&lt;/code&gt; 等等, 我们要如何选择它们呢?&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;如何选择html5标签&quot;&gt;&lt;a href=&quot;#如何选择html5标签&quot; class=&quot;headerlink&quot; title=&quot;如何选择html5标签&quot;&gt;&lt;/a&gt;如何选择html5标签&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;&lt;p&gt;废话不多说. 上图&lt;/p&gt;
-&lt;p&gt; &lt;img src=&quot;images/h5d-sectioning-flowchart.png&quot; alt=&quot;html5-elementTag-choose&quot;&gt;&lt;/p&gt;
+&lt;p&gt; &lt;img src=&quot;/images/h5d-sectioning-flowchart.png&quot; alt=&quot;html5-elementTag-choose&quot;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;😄😄😄😄😄&lt;/strong&gt;&lt;/p&gt;
