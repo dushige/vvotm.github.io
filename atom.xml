@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-06-04T15:53:36.766Z</updated>
+  <updated>2017-06-18T15:42:57.556Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>gohttpsvr</title>
+    <link href="http://vvotm.github.io/2017/06/18/gohttpsvr/"/>
+    <id>http://vvotm.github.io/2017/06/18/gohttpsvr/</id>
+    <published>2017-06-18T15:34:54.000Z</published>
+    <updated>2017-06-18T15:42:57.556Z</updated>
+    
+    <content type="html">&lt;p&gt;对于web开发者来收, 需要快速搭建一个web服务, 之前都在使用 nodejs实现的 &lt;a href=&quot;https://www.npmjs.com/package/http-server&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http-server&lt;/a&gt;&lt;br&gt;今天发现golang可以30行代码搞定类似&lt;code&gt;http-server&lt;/code&gt;的功能, golang着实强大.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;简单说明-和代码&quot;&gt;&lt;a href=&quot;#简单说明-和代码&quot; class=&quot;headerlink&quot; title=&quot;简单说明, 和代码&quot;&gt;&lt;/a&gt;简单说明, 和代码&lt;/h2&gt;&lt;p&gt;&lt;code&gt;flag&lt;/code&gt;包处理命令行的参数, &lt;code&gt;fmt&lt;/code&gt;包不多说, &lt;code&gt;net/http&lt;/code&gt;负责http的服务 &lt;code&gt;log&lt;/code&gt;负责打印点日志&lt;/p&gt;
+&lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; main&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;flag&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;fmt&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;log&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;net/http&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    port &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    host &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    path &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag.IntVar(&amp;amp;port, &lt;span class=&quot;string&quot;&gt;&quot;port&quot;&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;8000&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;server port listen&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag.StringVar(&amp;amp;host, &lt;span class=&quot;string&quot;&gt;&quot;host&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;0.0.0.0&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;host ip address&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag.StringVar(&amp;amp;path, &lt;span class=&quot;string&quot;&gt;&quot;path&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;./&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;server document root&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag.Parse()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    log.Printf(&lt;span class=&quot;string&quot;&gt;&quot;server listen at [%v]:[%v] and document root is [%v]\n&quot;&lt;/span&gt;, host, port, path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    log.Println(path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fs := http.FileServer(http.Dir(path))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http.Handle(&lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt;, fs)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http.ListenAndServe(fmt.Sprintf(&lt;span class=&quot;string&quot;&gt;&quot;%v:%v&quot;&lt;/span&gt;, host, port), &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;有问题, 欢迎拍砖&lt;/strong&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于web开发者来收, 需要快速搭建一个web服务, 之前都在使用 nodejs实现的 &lt;a href=&quot;https://www.npmjs.com/package/http-server&quot;&gt;http-server&lt;/a&gt;&lt;br&gt;今天发现golang可以30行代码搞定类似&lt;code&gt;http-server&lt;/code&gt;的功能, golang着实强大.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang, http, server" scheme="http://vvotm.github.io/tags/golang-http-server/"/>
+    
+  </entry>
   
   <entry>
     <title>如何选择h5标签</title>
@@ -955,52 +980,6 @@
     
     
       <category term="MySQL" scheme="http://vvotm.github.io/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>goodbye-可乐</title>
-    <link href="http://vvotm.github.io/2016/09/21/goodbye-%E5%8F%AF%E4%B9%90/"/>
-    <id>http://vvotm.github.io/2016/09/21/goodbye-可乐/</id>
-    <published>2016-09-21T14:00:26.000Z</published>
-    <updated>2017-02-09T23:09:06.573Z</updated>
-    
-    <content type="html">&lt;p&gt;今天离职了, 离别总是伤感的. 年纪大了越发的觉得.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;来了&quot;&gt;&lt;a href=&quot;#来了&quot; class=&quot;headerlink&quot; title=&quot;来了&quot;&gt;&lt;/a&gt;来了&lt;/h2&gt;&lt;p&gt;2015.5来杭州, 5月中旬入职可乐. 本来想装b来着, 装个archlinux, 后面失败了. 并不是linux不好, 只能说qq太好用了. :)&lt;br&gt;后面的连续几天都是发哥各种聊. 不管你能不能接受. 就是聊:( , 一周不到, 开始干活. 一周后准备放弃, 后面各方建议坚持, 不知不觉就&lt;br&gt;坚持了1年多了. 坚持坚持, 就习惯了. 现在要走了, 反倒有点不舍了. 现在回想, 也都能理解创业公司不容易, 大帝也确实不容易.&lt;br&gt;人都是好的, 只是很多时候大家都没办法.&lt;/p&gt;
-&lt;h2 id=&quot;走了&quot;&gt;&lt;a href=&quot;#走了&quot; class=&quot;headerlink&quot; title=&quot;走了&quot;&gt;&lt;/a&gt;走了&lt;/h2&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 排序方式, 优雅采用了随机算法, 比我跑得快的不参与排序^_^&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; itTeam = [ &lt;span class=&quot;string&quot;&gt;&quot;发哥&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;华哥&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;姐&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;大云&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;格格&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;大山&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;采臣&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;东阳&quot;&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; f = (itTeam = [], randomDeep = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;) =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (randomDeep &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; tmp = []; &lt;span class=&quot;comment&quot;&gt;// temp container&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt;(itTeam.length &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; index = &lt;span class=&quot;built_in&quot;&gt;Math&lt;/span&gt;.ceil((&lt;span class=&quot;built_in&quot;&gt;Math&lt;/span&gt;.random() * &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;)) % itTeam.length;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     tmp.push(itTeam[index]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     itTeam.splice(index, &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   itTeam = f(tmp, --randomDeep) &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; itTeam;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(f(itTeam, &lt;span class=&quot;number&quot;&gt;21&lt;/span&gt;))&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;&lt;img src=&quot;/images/klsm/tp.png&quot; alt=&quot;结果恭大云荣获第一:)&quot;&gt;&lt;/p&gt;
-&lt;h4 id=&quot;恭喜大云荣登榜首&quot;&gt;&lt;a href=&quot;#恭喜大云荣登榜首&quot; class=&quot;headerlink&quot; title=&quot;恭喜大云荣登榜首&quot;&gt;&lt;/a&gt;恭喜大云荣登榜首&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;大云, 好看, 有个性, 我喜欢. 工作不要搞的太累, 这几天脸色都不好了, 辞了工作, 放松放松, 无拘无束的日子说不定就没了. 对象的话, 随自然把, 等你的那个人, 明天总会遇到. 如果今天就要, 你也有办法哦 &lt;code&gt;var myPrince = new Object()&lt;/code&gt; :)&lt;/li&gt;
-&lt;li&gt;大山, 三分球投的真准, 你是库里啊? 一直没机会斗牛, 下次有机会斗斗牛吧. 吃货&lt;/li&gt;
-&lt;li&gt;发哥, 你的管理方式, 我理解是最适合公司的. 但我个人不赞赏. 也不知道为什么很多时候都不太愿意在你底下干活. 能力方面, 我打心里佩服, 没得说(肯定花了不少时间). 加油, 有能力+张扬=金子发光.&lt;/li&gt;
-&lt;li&gt;华哥(老表),  产品做的的确不错, 脾气也不差^_^, 配合了几个项目, 让我对产品有的认识(真的), 你到哪里都会过的好好的. 对你就一点, 头上头发多长点就OK了. 原型发你邮箱 √&lt;/li&gt;
-&lt;li&gt;采臣, 该处对象了, 我开始替你爸妈捉急了. 方案一: 去骗, 各种花言巧语骗一个, 方案二: 努力赚好多好多钱, 推荐方案一啊.&lt;/li&gt;
-&lt;li&gt;东阳, 长这么帅, 在我们村里, 除了我自己, 我不知道什么叫帅, 见到你, 我知道了.. 小伙子, 有前途啊. 加油&lt;/li&gt;
-&lt;li&gt;姐, 你家的火锅真好吃, 现在还记得. 以后玩叫上我啊, 平时多运动运动, 晚上不要想太多, 打扁脑袋睡觉. 身体要调好, 二胎是要的:)&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;格格, 你个大胖子, 拿了大云的减肥器材也没见效果啊. 还好你有老婆, 也不用太担心. 做的虾好吃, 啥事再做啊?&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;杨兵[b]哥, 腻害, 好好照顾晶晶,做爸爸了, 要沉稳点了. 跑路了, 感情还在.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;晶晶, 和杨兵好好的. 祝福你们哦. 跑路了, 感觉要生疏了&lt;/li&gt;
-&lt;li&gt;坤哥[b], 有经验, 事情都能安排妥当. 感觉很正经的一个, 慢慢的才发现, 逗逼一号非你莫属啊, 跑路了, 感情还在.&lt;/li&gt;
-&lt;li&gt;老龚, 你推荐的那几本书叫什么来着?&lt;/li&gt;
-&lt;li&gt;陈浩, 听说胖子已成型男, 怀念一起下班做公交的日子了.&lt;/li&gt;
-&lt;li&gt;吕煜, 现在好么, 要生疏了.&lt;/li&gt;
-&lt;li&gt;老王, 搞不好要请你吃饭了……..&lt;/li&gt;
-&lt;li&gt;罗宾, 现在好么, 要生疏了.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;最后公司所有(大帝, 小边, 钟灵, 小胡 ………..) 大家都要好好的. 来日方长, 后会有期了!&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天离职了, 离别总是伤感的. 年纪大了越发的觉得.&lt;/p&gt;
-    
-    </summary>
-    
     
   </entry>
   
