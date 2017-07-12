@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-07-12T14:42:30.214Z</updated>
+  <updated>2017-07-12T22:10:05.796Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -20,31 +20,19 @@
     <link href="http://vvotm.github.io/2017/07/12/bash%E4%BF%9D%E7%95%99%E6%8C%87%E5%AE%9A%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%96%87%E4%BB%B6%E4%B8%AA%E6%95%B0/"/>
     <id>http://vvotm.github.io/2017/07/12/bash保留指定目录下文件个数/</id>
     <published>2017-07-12T14:31:51.000Z</published>
-    <updated>2017-07-12T14:42:30.214Z</updated>
+    <updated>2017-07-12T22:10:05.796Z</updated>
     
     <content type="html">&lt;p&gt;线上有一台服务器, 每天凌晨3点做数据库的全量备份, 然后打包到指定目录, 前几天, 磁盘下满了, 查看该目录下&lt;br&gt;文件多达2个多月了, 不行, 要定期清楚.&lt;/p&gt;
-&lt;!--more-&gt;
-
-### 获取该目录下需要被删除的文件列表
-
-由于该目录下备份文件有规则, 为`database_YYYYMMDD.tgz`, 因此列出需要删除的文件 `ls | sort -r | sed -n &#39;30,$p&#39;`
-
-`sort -r` 逆向排序, 默认会根据`YYYYMMDD`来循序排列
-`sed -n &#39;30,$A&#39;` sed将30行到地步的行打印出来
-`rm file` 最后删除列出的文件名称.
-
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;获取该目录下需要被删除的文件列表&quot;&gt;&lt;a href=&quot;#获取该目录下需要被删除的文件列表&quot; class=&quot;headerlink&quot; title=&quot;获取该目录下需要被删除的文件列表&quot;&gt;&lt;/a&gt;获取该目录下需要被删除的文件列表&lt;/h3&gt;&lt;p&gt;由于该目录下备份文件有规则, 为&lt;code&gt;database_YYYYMMDD.tgz&lt;/code&gt;, 因此列出需要删除的文件 &lt;code&gt;ls | sort -r | sed -n &amp;#39;30,$p&amp;#39;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sort -r&lt;/code&gt; 逆向排序, 默认会根据&lt;code&gt;YYYYMMDD&lt;/code&gt;来循序排列&lt;br&gt;&lt;code&gt;sed -n &amp;#39;30,$A&amp;#39;&lt;/code&gt; sed将30行到地步的行打印出来&lt;br&gt;&lt;code&gt;rm file&lt;/code&gt; 最后删除列出的文件名称.&lt;/p&gt;
 &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Author: luowen&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Email: bigpao.luo@gmail.com&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Description: only keep one mouth db backup file&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Time: 2017-07-12 22:00:00&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;DB_BACKUP_DIR=/var/data/mysqldb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; expire_file &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; `ls &lt;span class=&quot;variable&quot;&gt;$DB_BACKUP_DIR&lt;/span&gt; | sort -r | sed -n &lt;span class=&quot;string&quot;&gt;&#39;30,$p&#39;&lt;/span&gt;`&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    rm &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$DB_BACKUP_DIR&lt;/span&gt;/&lt;span class=&quot;variable&quot;&gt;$expire_file&lt;/span&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;strong&gt;这是最简单的方法, 还有就是当前时间-mtime, 如果时间大于一个月的, 就删除.&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;方法还很多, 详细就不列出来了&lt;/strong&gt;&lt;/p&gt;
---&gt;</content>
+</content>
     
     <summary type="html">
     
       &lt;p&gt;线上有一台服务器, 每天凌晨3点做数据库的全量备份, 然后打包到指定目录, 前几天, 磁盘下满了, 查看该目录下&lt;br&gt;文件多达2个多月了, 不行, 要定期清楚.&lt;/p&gt;
-&lt;!--more-&gt;
-
-### 获取该目录下需要被删除的文件列表
-
-由于该目录下备份文件有规则, 为`
     
     </summary>
     
