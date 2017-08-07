@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-07-12T22:15:41.969Z</updated>
+  <updated>2017-08-07T13:23:01.761Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,53 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>gotcp服务</title>
+    <link href="http://vvotm.github.io/2017/08/07/gotcp%E6%9C%8D%E5%8A%A1/"/>
+    <id>http://vvotm.github.io/2017/08/07/gotcp服务/</id>
+    <published>2017-08-07T00:23:52.000Z</published>
+    <updated>2017-08-07T13:23:01.761Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;GOLANG简单的TCP服务实现&quot;&gt;&lt;a href=&quot;#GOLANG简单的TCP服务实现&quot; class=&quot;headerlink&quot; title=&quot;GOLANG简单的TCP服务实现&quot;&gt;&lt;/a&gt;GOLANG简单的TCP服务实现&lt;/h2&gt;&lt;p&gt;golang实现tcp非常简单, 加上goroutine, 跟好理解, 一下代码就是一个tcp连接过来后, 使用一个goroutine处理,&lt;br&gt;通过client对象包装后, 每个client有开启两个goroutine, 一个负责循环读取客户端发送过来的数据, 一个负责循环往&lt;br&gt;客户端连接socket中写数据, 中间通过一个chan实现数据交互. 当chan中没有数据的时候, 会阻塞client的读写goroutine.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; main&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;bufio&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;log&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;net&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;strconv&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;strings&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;type&lt;/span&gt; Client &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// incoming chan string&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    outgoing &lt;span class=&quot;keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reader   *bufio.Reader&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    writer   *bufio.Writer&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    conn     net.Conn&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(client *Client)&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        log.Println(&lt;span class=&quot;string&quot;&gt;&quot;readConnection&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        line, err := client.reader.ReadString(&lt;span class=&quot;string&quot;&gt;&#39;\n&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; err != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            log.Println(&lt;span class=&quot;string&quot;&gt;&quot;read from tcp connection error&quot;&lt;/span&gt; + err.Error())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            client.conn.Close()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        trimLine := strings.Trim(line, &lt;span class=&quot;string&quot;&gt;&quot;\r\n&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        length := &lt;span class=&quot;built_in&quot;&gt;len&lt;/span&gt;(line)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        resp := &lt;span class=&quot;string&quot;&gt;&quot;readData-&amp;gt;&quot;&lt;/span&gt; + trimLine + &lt;span class=&quot;string&quot;&gt;&quot; AND length is -&amp;gt;&quot;&lt;/span&gt; + strconv.Itoa(length)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        log.Println(resp)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        client.outgoing &amp;lt;- (resp + &lt;span class=&quot;string&quot;&gt;&quot;\r\n&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; trimLine == &lt;span class=&quot;string&quot;&gt;&quot;close&quot;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    client.conn.Close()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(client *Client)&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Write&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; data := &lt;span class=&quot;keyword&quot;&gt;range&lt;/span&gt; client.outgoing &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        client.writer.WriteString(data)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        client.writer.Flush()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;HandleConn&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(connection net.Conn)&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    writer := bufio.NewWriter(connection)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reader := bufio.NewReader(connection)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    client := &amp;amp;Client&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        outgoing: &lt;span class=&quot;built_in&quot;&gt;make&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;chan&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        conn:     connection,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        reader:   reader,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        writer:   writer,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; client.Read()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; client.Write()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    listener, _ := net.Listen(&lt;span class=&quot;string&quot;&gt;&quot;tcp&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;:8080&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        conn, err := listener.Accept()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; err != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            log.Println(err.Error())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; HandleConn(conn)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;GOLANG简单的TCP服务实现&quot;&gt;&lt;a href=&quot;#GOLANG简单的TCP服务实现&quot; class=&quot;headerlink&quot; title=&quot;GOLANG简单的TCP服务实现&quot;&gt;&lt;/a&gt;GOLANG简单的TCP服务实现&lt;/h2&gt;&lt;p&gt;golang实现tcp非常简单, 加上goroutine, 跟好理解, 一下代码就是一个tcp连接过来后, 使用一个goroutine处理,&lt;br&gt;通过client对象包装后, 每个client有开启两个goroutine, 一个负责循环读取客户端发送过来的数据, 一个负责循环往&lt;br&gt;客户端连接socket中写数据, 中间通过一个chan实现数据交互. 当chan中没有数据的时候, 会阻塞client的读写goroutine.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="go, tcp" scheme="http://vvotm.github.io/tags/go-tcp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>身份证校验规则</title>
+    <link href="http://vvotm.github.io/2017/07/18/idcard-validate-rule/"/>
+    <id>http://vvotm.github.io/2017/07/18/idcard-validate-rule/</id>
+    <published>2017-07-18T09:19:47.000Z</published>
+    <updated>2017-07-23T22:49:30.168Z</updated>
+    
+    <content type="html">&lt;p&gt;身份证的后1位是由前面几位生成出来的!😄😄, 怎么生成的?&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;身份证校验规则&quot;&gt;&lt;a href=&quot;#身份证校验规则&quot; class=&quot;headerlink&quot; title=&quot;身份证校验规则&quot;&gt;&lt;/a&gt;身份证校验规则&lt;/h3&gt;&lt;p&gt;身份证的校验规则php代码如下, 为什么是这样? 后面补上! 😬&lt;/p&gt;
+&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;checkIdCard&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;($idcard)&lt;/span&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(strlen($idcard)!=&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;)&amp;#123; &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;; &amp;#125; &lt;span class=&quot;comment&quot;&gt;// 只能是18位&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $idcardBase = substr($idcard, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;17&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;// 取出本体码&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $verifyCode = substr($idcard, &lt;span class=&quot;number&quot;&gt;17&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;// 取出校验码&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $factor = [&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;// 加权因子&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $verifyCodeList = [&lt;span class=&quot;string&quot;&gt;&#39;1&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;0&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;X&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;9&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;8&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;7&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;6&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;5&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;4&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;3&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;2&#39;&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;// 校验码对应值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $total = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; &lt;span class=&quot;comment&quot;&gt;// 根据前17位计算校验码&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt;($i=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; $i&amp;lt;&lt;span class=&quot;number&quot;&gt;17&lt;/span&gt;; $i++)&amp;#123; $total += substr($idcardBase, $i, &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;) * $factor[$i]; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    $mod = $total % &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;; &lt;span class=&quot;comment&quot;&gt;// 取模&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; $verifyCode == $verifyCodeList[$mod]; &lt;span class=&quot;comment&quot;&gt;// 比较校验码&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;身份证的后1位是由前面几位生成出来的!😄😄, 怎么生成的?&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="idcard, validate" scheme="http://vvotm.github.io/tags/idcard-validate/"/>
+    
+  </entry>
   
   <entry>
     <title>BASH保留指定目录下指定个数文件</title>
@@ -821,105 +868,6 @@
     <summary type="html">
     
       &lt;p&gt;一般我们登入, 都想服务器post用户名, 用户密码, 然后服务端校验, 实现用户登入功能. 如果我们的网站没有使用ssl, 我们的信息就等于在网络中裸奔.&lt;br&gt;今天我们来实现密码加密登入(非ssl)&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>windows10下使用mintty代替cmd仿linux终端</title>
-    <link href="http://vvotm.github.io/2016/11/09/windows10%E4%B8%8B%E4%BD%BF%E7%94%A8mintty%E4%BB%A3%E6%9B%BFcmd%E4%BB%BFlinux%E7%BB%88%E7%AB%AF/"/>
-    <id>http://vvotm.github.io/2016/11/09/windows10下使用mintty代替cmd仿linux终端/</id>
-    <published>2016-11-08T16:40:15.000Z</published>
-    <updated>2017-02-09T23:09:06.579Z</updated>
-    
-    <content type="html">&lt;p&gt;大部分的开发者都都是在windows下开发的(包括本人), 但开发的很多时候, 我们都希望我们windows的cmd窗口能想unix-like系统那样功能强大. 怎么办呢? 今天来实现它.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;来一发&quot;&gt;&lt;a href=&quot;#来一发&quot; class=&quot;headerlink&quot; title=&quot;来一发!&quot;&gt;&lt;/a&gt;来一发!&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;废话不多说, 来一张预览图&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/tty/1.png&quot; alt=&quot;预览&quot;&gt;&lt;/p&gt;
-&lt;p&gt;  &lt;strong&gt;还不错吧&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;如何搭建&quot;&gt;&lt;a href=&quot;#如何搭建&quot; class=&quot;headerlink&quot; title=&quot;如何搭建&quot;&gt;&lt;/a&gt;如何搭建&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;到&lt;a href=&quot;http://www.cygwin.com/install.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方网站&lt;/a&gt; 下载安装&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;下载安装后, 将安装目录下的&lt;code&gt;bin, sbin&lt;/code&gt;到环境变量中(&lt;em&gt;&lt;em&gt;非必须&lt;/em&gt;&lt;/em&gt;), 这样是为了cmd下也可以使用linux命令.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;将bin目录下的mintty.exe 穿件快捷方式, 移动到&lt;code&gt;c:\windows\system32\cmmd&lt;/code&gt; 以后启动直接使用&lt;code&gt;win+r&lt;/code&gt; 输入cmmd即可.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;字体设置, 窗口透明, 右击打开的窗口, 自行设置即可.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;是不是很简单, 很实用, 逼格一下上升了很多了吧&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;大部分的开发者都都是在windows下开发的(包括本人), 但开发的很多时候, 我们都希望我们windows的cmd窗口能想unix-like系统那样功能强大. 怎么办呢? 今天来实现它.&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>phpstorm-debug</title>
-    <link href="http://vvotm.github.io/2016/10/31/phpstorm-debug/"/>
-    <id>http://vvotm.github.io/2016/10/31/phpstorm-debug/</id>
-    <published>2016-10-31T15:59:31.000Z</published>
-    <updated>2017-02-09T23:09:06.576Z</updated>
-    
-    <content type="html">&lt;p&gt;phpstorm 是一个php开发利器,本博客简单的描述如何使用phpstrom2016.2实现phpweb应用debug. 简单单个php脚本不做解释.&lt;br&gt;英文好的同学直接阅读&lt;a href=&quot;https://www.jetbrains.com/help/phpstorm/2016.2/configuring-xdebug.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;会更加详细&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot; title=&quot;前提&quot;&gt;&lt;/a&gt;前提&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;下载xdebug扩展包, (windows下载对应的xdebug.dll), unix-like下载xdebug.so或自行编译(phpize)不多介绍&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;配置xdebug注入到php引擎中, 实现断点拦截调试&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;配置守护进程模式&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;配置运行时(just in time) 模式&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;下载debug&quot;&gt;&lt;a href=&quot;#下载debug&quot; class=&quot;headerlink&quot; title=&quot;下载debug&quot;&gt;&lt;/a&gt;下载debug&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;到&lt;a href=&quot;https://xdebug.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;xdebug&lt;/a&gt;下载对应的版本到ext目录下&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;编辑&lt;code&gt;php.ini&lt;/code&gt;文件, 找到对应的[xdebug]端, 加入xdebug扩展&lt;/p&gt;
-  &lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[xdebug]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;zend_extension=php_xdebug.dll&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.remote_enable=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.remote_connect_back=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.remote_host=&lt;span class=&quot;number&quot;&gt;127.0&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.0&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.remote_port=&lt;span class=&quot;number&quot;&gt;9999&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;debug.show_local_vars=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.var_display_max_data=&lt;span class=&quot;number&quot;&gt;10000&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.var_display_max_depth=&lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;xdebug.show_exception_trace=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;  &lt;strong&gt;注意&lt;code&gt;xdebug_remote_port=9999&lt;/code&gt; 默认是9000, 由于我本地php-cgi跑的端口是9000, 所以修改了, 后面对应的phpstrom也要修改默认9000 =&amp;gt; 9999端口.&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重启服务, apache(mod)形式重启apache, nginx+fpm, 重启fpm&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;配置ide注入&quot;&gt;&lt;a href=&quot;#配置ide注入&quot; class=&quot;headerlink&quot; title=&quot;配置ide注入&quot;&gt;&lt;/a&gt;配置ide注入&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;打开&lt;code&gt;File|Settings&lt;/code&gt;对话框, 选择&lt;code&gt;Languages&amp;amp;Frameworks.&lt;/code&gt;, 在php页面选择&lt;code&gt;interpreter&lt;/code&gt;, 选择本地安装的php脚本.&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/debug/1.png&quot; alt=&quot;xdebug interpreter&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;如果有修改默认&lt;code&gt;xdebug_remote_port&lt;/code&gt;, 修改默认phpstorm默认debug端口&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/debug/2.png&quot; alt=&quot;phpstrom default debug port&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;添加默认服务地址&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/debug/3.png&quot; alt=&quot;default php host&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;新建调试页面(一个服务地址下, 可以配置多个页面调试)&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/debug/4.png&quot; alt=&quot;create debug page&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;在对应的php文件打上断点后, 点击debug按钮后, 会打开默认浏览器访问上一部配置的地址, 然后再回到phpstrom, php已经停止在断点处了. 之后慢慢调试咯. 效果如图&lt;/p&gt;
-&lt;p&gt;  &lt;img src=&quot;/images/debug/5.png&quot; alt=&quot;OK&quot;&gt;&lt;/p&gt;
-&lt;p&gt;  &lt;strong&gt;这样就实现了phpweb应用的调试了, 不用var_dump($var);exit;调试了&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;PS: 有问题欢迎拍砖, 本人亲测没有问题.&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;phpstorm 是一个php开发利器,本博客简单的描述如何使用phpstrom2016.2实现phpweb应用debug. 简单单个php脚本不做解释.&lt;br&gt;英文好的同学直接阅读&lt;a href=&quot;https://www.jetbrains.com/help/phpstorm/2016.2/configuring-xdebug.html&quot;&gt;官方文档&lt;/a&gt;会更加详细&lt;/p&gt;
     
     </summary>
     
