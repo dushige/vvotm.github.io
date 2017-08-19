@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-08-19T01:07:03.633Z</updated>
+  <updated>2017-08-19T01:09:54.762Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -16,13 +16,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>select-for-update</title>
+    <title>SELECT ... FOR UPDATE</title>
     <link href="http://vvotm.github.io/2017/08/19/select-for-update/"/>
     <id>http://vvotm.github.io/2017/08/19/select-for-update/</id>
     <published>2017-08-19T00:23:32.000Z</published>
-    <updated>2017-08-19T01:07:03.633Z</updated>
+    <updated>2017-08-19T01:09:54.762Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;SELECT-…-FOR-UPDATE&quot;&gt;&lt;a href=&quot;#SELECT-…-FOR-UPDATE&quot; class=&quot;headerlink&quot; title=&quot;SELECT … FOR UPDATE&quot;&gt;&lt;/a&gt;SELECT … FOR UPDATE&lt;/h2&gt;&lt;p&gt;这几天遇到一个问题, 关于购票库存问题. 如何能够在并发情况下减去正确的库存量. 如A请求过来, 查询库存100,&lt;br&gt;判断大于购买的量10(假设), 可以购买.  B请求过来查询库存也是100, 然后也可以购买. 然后A请求减去了库存10,&lt;br&gt;数据库更新成功.就在同时, B请求也减去了库存10, 这样就问题就出来了。&lt;/p&gt;
+    <content type="html">&lt;p&gt;这几天遇到一个问题, 关于购票库存问题. 如何能够在并发情况下减去正确的库存量. 如A请求过来, 查询库存100,&lt;br&gt;判断大于购买的量10(假设), 可以购买.  B请求过来查询库存也是100, 然后也可以购买. 然后A请求减去了库存10,&lt;br&gt;数据库更新成功.就在同时, B请求也减去了库存10, 这样就问题就出来了。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;总体的思路是要让操纵库存的部分串行处理.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;方案1&lt;/strong&gt; 没次下单请求过来, 加入到队列中, 每次减库存的时候, 判断下队列中的请求数量超过库存量的时候, 不接受其他下单请求.&lt;br&gt;这个方案php实现起来不是很容易, php没发记录请求数. 能想到的使用swoole来做.&lt;/p&gt;
@@ -32,7 +32,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;SELECT-…-FOR-UPDATE&quot;&gt;&lt;a href=&quot;#SELECT-…-FOR-UPDATE&quot; class=&quot;headerlink&quot; title=&quot;SELECT … FOR UPDATE&quot;&gt;&lt;/a&gt;SELECT … FOR UPDATE&lt;/h2&gt;&lt;p&gt;这几天遇到一个问题, 关于购票库存问题. 如何能够在并发情况下减去正确的库存量. 如A请求过来, 查询库存100,&lt;br&gt;判断大于购买的量10(假设), 可以购买.  B请求过来查询库存也是100, 然后也可以购买. 然后A请求减去了库存10,&lt;br&gt;数据库更新成功.就在同时, B请求也减去了库存10, 这样就问题就出来了。&lt;/p&gt;
+      &lt;p&gt;这几天遇到一个问题, 关于购票库存问题. 如何能够在并发情况下减去正确的库存量. 如A请求过来, 查询库存100,&lt;br&gt;判断大于购买的量10(假设), 可以购买.  B请求过来查询库存也是100, 然后也可以购买. 然后A请求减去了库存10,&lt;br&gt;数据库更新成功.就在同时, B请求也减去了库存10, 这样就问题就出来了。&lt;/p&gt;
     
     </summary>
     
