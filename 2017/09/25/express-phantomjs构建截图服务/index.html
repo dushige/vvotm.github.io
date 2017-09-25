@@ -8,10 +8,14 @@
 <h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>python的<code>selenium</code>库是基于浏览器的, 线上服务器, 那里来的浏览器, 要知道去线上服务器装一个浏览器有多么复杂啊. (X服务, QT, 巴拉巴拉省略好几百个依赖)， 太吓人了， 果断放弃</p>
 <p><code>CutyCapt</code>不需要装浏览器, 但它的原理是将页面转成PDF在有PDF转成图片， 我在想页面边PDF色彩会不会丢失, 会不会出现字体样式的问题。 没试， 还是放弃了。依赖的东西也不少。</p>
 <p>nodejs<code>webshot2</code> 一个简单的页面截图, 依赖少的可怜, 装好nodejs就可以了, 直接抓去页面, 或直接渲染html, 截图。一步到位, 毫无悬念, 就它了。</p>
-<h3 id="展示下效果图"><a href="#展示下效果图" class="headerlink" title="展示下效果图"></a>展示下效果图</h3><p>截图传递参数详情参见<a href="https://www.npmjs.com/package/webshot2" target="_blank" rel="external">webshot2</a></p>
-<p><img src="/images/webshot/1.jpg" alt="展示1"></p>
-<p>截图后的效果</p>
-<p><img src="/images/webshot/2.jpg" alt="展示2"></p>
+<h3 id="展示下效果图"><a href="#展示下效果图" class="headerlink" title="展示下效果图"></a>展示下效果图</h3><ol>
+<li><p>截图传递参数详情参见<a href="https://www.npmjs.com/package/webshot2" target="_blank" rel="external">webshot2</a></p>
+<p> <img src="/images/webshot/1.jpg" alt="展示1"></p>
+</li>
+<li><p>截图后的效果</p>
+<p> <img src="/images/webshot/2.jpg" alt="展示2"></p>
+</li>
+</ol>
 <p>由于是后台业务, 无需考虑大并发业务场景。<a href="https://github.com/vvotm/webshot" target="_blank" rel="external">代码</a></p>
 </div></article></div></section><footer><div class="paginator"><a href="/2017/09/17/go-tcp/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'superwm';
 var disqus_identifier = '2017/09/25/express-phantomjs构建截图服务/';

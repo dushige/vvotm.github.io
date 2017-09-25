@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-09-25T15:33:30.671Z</updated>
+  <updated>2017-09-25T15:36:11.945Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://vvotm.github.io/2017/09/25/express-phantomjs%E6%9E%84%E5%BB%BA%E6%88%AA%E5%9B%BE%E6%9C%8D%E5%8A%A1/"/>
     <id>http://vvotm.github.io/2017/09/25/express-phantomjs构建截图服务/</id>
     <published>2017-09-25T14:49:07.000Z</published>
-    <updated>2017-09-25T15:33:30.671Z</updated>
+    <updated>2017-09-25T15:36:11.945Z</updated>
     
     <content type="html">&lt;p&gt;最近有个需求需要把长的网页截图后, 用于微信分享。 google了一番, 发现了集中解决方案。&lt;/p&gt;
 &lt;ul&gt;
@@ -32,10 +32,14 @@
 &lt;h3 id=&quot;对比&quot;&gt;&lt;a href=&quot;#对比&quot; class=&quot;headerlink&quot; title=&quot;对比&quot;&gt;&lt;/a&gt;对比&lt;/h3&gt;&lt;p&gt;python的&lt;code&gt;selenium&lt;/code&gt;库是基于浏览器的, 线上服务器, 那里来的浏览器, 要知道去线上服务器装一个浏览器有多么复杂啊. (X服务, QT, 巴拉巴拉省略好几百个依赖)， 太吓人了， 果断放弃&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;CutyCapt&lt;/code&gt;不需要装浏览器, 但它的原理是将页面转成PDF在有PDF转成图片， 我在想页面边PDF色彩会不会丢失, 会不会出现字体样式的问题。 没试， 还是放弃了。依赖的东西也不少。&lt;/p&gt;
 &lt;p&gt;nodejs&lt;code&gt;webshot2&lt;/code&gt; 一个简单的页面截图, 依赖少的可怜, 装好nodejs就可以了, 直接抓去页面, 或直接渲染html, 截图。一步到位, 毫无悬念, 就它了。&lt;/p&gt;
-&lt;h3 id=&quot;展示下效果图&quot;&gt;&lt;a href=&quot;#展示下效果图&quot; class=&quot;headerlink&quot; title=&quot;展示下效果图&quot;&gt;&lt;/a&gt;展示下效果图&lt;/h3&gt;&lt;p&gt;截图传递参数详情参见&lt;a href=&quot;https://www.npmjs.com/package/webshot2&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;webshot2&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/images/webshot/1.jpg&quot; alt=&quot;展示1&quot;&gt;&lt;/p&gt;
-&lt;p&gt;截图后的效果&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/images/webshot/2.jpg&quot; alt=&quot;展示2&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;展示下效果图&quot;&gt;&lt;a href=&quot;#展示下效果图&quot; class=&quot;headerlink&quot; title=&quot;展示下效果图&quot;&gt;&lt;/a&gt;展示下效果图&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;截图传递参数详情参见&lt;a href=&quot;https://www.npmjs.com/package/webshot2&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;webshot2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt; &lt;img src=&quot;/images/webshot/1.jpg&quot; alt=&quot;展示1&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;截图后的效果&lt;/p&gt;
+&lt;p&gt; &lt;img src=&quot;/images/webshot/2.jpg&quot; alt=&quot;展示2&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;由于是后台业务, 无需考虑大并发业务场景。&lt;a href=&quot;https://github.com/vvotm/webshot&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;代码&lt;/a&gt;&lt;/p&gt;
 </content>
     
