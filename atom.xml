@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-10-20T14:14:05.756Z</updated>
+  <updated>2017-10-31T14:16:49.388Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git合错分支怎么办</title>
+    <link href="http://vvotm.github.io/2017/10/31/git-undoing-merge/"/>
+    <id>http://vvotm.github.io/2017/10/31/git-undoing-merge/</id>
+    <published>2017-10-31T12:51:14.000Z</published>
+    <updated>2017-10-31T14:16:49.388Z</updated>
+    
+    <content type="html">&lt;p&gt;使用版本控制git工作流的时候, 不可避免的使用多个分支, 合并, 删除. 使用一款好用的git管理工具(如sourceTree, github-destop等等)可以很方便的避免一些问题.&lt;br&gt;当很多场景下也是不可避免的要使用终端工具. 个人感觉使用终端工具熟练后, 可以做到比管理工具更快捷的操作. 但是使用终端不可避免的增加了你的犯错几率. 比如和错了分支, 再错误的分支开发啊等等. 这个帖子见到那的说明下合错了分支的处理方式.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;一步一步来实验吧&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ 初始化仓库 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git init &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch master.txt &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;initialize project&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建`master`, `develop`分支 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建feautre/1分支 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b feature/1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch 1.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;feature/1&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建features/2分支 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b feature/2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch 2.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;feature/2&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建features/3分支 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b feature/3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch 3.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;feature/3&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ feature/1功能开发完毕. 合并feature/1分支到develop ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建feature/4分支 ctrl+c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b feature/4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch 4.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;feature/4&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 创建feature/5分支&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout -b feature/5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ touch 5.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git add . &amp;amp;&amp;amp; git commit . -m &lt;span class=&quot;string&quot;&gt;&quot;feature/5&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ feature/4功能开发完毕. 合并feature/4的功能发布&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 此时feature/2功能开发完毕, 合并develop发布&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 此时feature/5功能开发完毕, 合并develop发布&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 此时feature/3功能开发完毕, 合并develop发布&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git checkout develop&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;感觉很绕, 截一张git的log图看看&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;![gitlog](/images/git/gitlog.png)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;what the fuck!! 是不是看的很懵逼. &lt;strong&gt;记住一个原则, 从下往上看, 同一个颜色的分支表示在同一时期创建的, 因为合并到develop的分支的时间不同, 就导致了这么的分叉&lt;/strong&gt;&lt;br&gt;拿最下面的绿色线条来说吧, &lt;code&gt;feature/1&lt;/code&gt;, &lt;code&gt;feature/2&lt;/code&gt;, &lt;code&gt;feature/3&lt;/code&gt; 是在同一时期创建的, 由于他们合并的&lt;code&gt;develop&lt;/code&gt;的分支的时间不同, 就导致了那么丑难以理解的图.&lt;/p&gt;
+&lt;p&gt;回到正题, 假设我现在&lt;code&gt;feature/2&lt;/code&gt;开发的功能由于有缺陷, 直接导致系统崩溃. 现在要把&lt;code&gt;feature/2&lt;/code&gt;的功能剔除掉!, 怎么搞呢???&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;方案1 使用&lt;code&gt;git reset&lt;/code&gt; 回到&lt;code&gt;feature/2&lt;/code&gt;代码提交的上一个点, 在把新的功能合并过来&lt;/p&gt;
+  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ 我们回到合并feature/2功能的上一个提交点, 也就是 8162972&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git reset --hard 8162972&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 再把feature/3 feature/5的功能合并过来, 再提交&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git merge feature/5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ 强制提交到远程&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git push --force&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;缺点: 此方法会把提交历史记录丢失, 一旦分支多了，合并新开发的分支也是很痛苦的，　一旦强制push到远程仓库, 其他协作者的本地分支如果有跟踪远程的分支, 那么提交就出现问题了&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;方案2 使用更加优雅的&lt;code&gt;git revert&lt;/code&gt; 直接把&lt;code&gt;feature/2&lt;/code&gt;提交的代码剔除, 在生成一个新的提交记录&lt;/p&gt;
+  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ 现还原最后的提交记录&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git reset --hard 9c9b941&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ -m 1 表示merge分支的父节点, 注意, 122c518 是develop合并 feature/2分支后的在develop分支提交点. 如果不是merge的, 如不要分支`feature/1`的功能, 可直接 git revert b42a249 即可&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git revert -m 1 122c518&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ git push&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;有没有发现,全是优点!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本文参考原帖&lt;a href=&quot;https://git-scm.com/blog/2010/03/02/undoing-merges.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Undoing Merges&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用版本控制git工作流的时候, 不可避免的使用多个分支, 合并, 删除. 使用一款好用的git管理工具(如sourceTree, github-destop等等)可以很方便的避免一些问题.&lt;br&gt;当很多场景下也是不可避免的要使用终端工具. 个人感觉使用终端工具熟练后, 可以做到比管理工具更快捷的操作. 但是使用终端不可避免的增加了你的犯错几率. 比如和错了分支, 再错误的分支开发啊等等. 这个帖子见到那的说明下合错了分支的处理方式.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="git, git reset, git revert" scheme="http://vvotm.github.io/tags/git-git-reset-git-revert/"/>
+    
+  </entry>
   
   <entry>
     <title>golang怎么限制goroutine数量</title>
@@ -726,59 +767,6 @@
     <summary type="html">
     
       &lt;p&gt;每次编译php都会有新的问题出现, 好累, 暂时记录下. 希望下次编译会快点.&lt;br&gt;本帖写给自己看的, 写的很简陋, 😄&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>windows 生成sshkey 实现github git协议克隆提交代码</title>
-    <link href="http://vvotm.github.io/2017/03/15/windows-sshkey-support-git/"/>
-    <id>http://vvotm.github.io/2017/03/15/windows-sshkey-support-git/</id>
-    <published>2017-03-15T13:41:14.000Z</published>
-    <updated>2017-03-15T14:05:16.979Z</updated>
-    
-    <content type="html">&lt;p&gt;一般的, 我们从github, 或是私有仓库gitlab中克隆代码, 都是使用 git clone &lt;a href=&quot;https://github.com/u/xxx.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/u/xxx.git&lt;/a&gt;, https协议相比git, (git@github.com:u:/xx.git) 会慢很多, 而且要保存帐号密码到本地,才能实现免帐号密码登入. 使用ssh协议就方便很多了.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;废话不多说-开搞&quot;&gt;&lt;a href=&quot;#废话不多说-开搞&quot; class=&quot;headerlink&quot; title=&quot;废话不多说, 开搞&quot;&gt;&lt;/a&gt;废话不多说, 开搞&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;生成密钥,公钥对. 随便找一台linux机器, 执行如下命令&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ ssh-genkey -t rsa &lt;span class=&quot;_&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt; // 生成&lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt; test.pub 密钥公钥对&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sz &lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt;*  // 下载密钥公钥对到本地 (rz命令不存在, 安装lrzsz)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;复制&lt;code&gt;test.pub&lt;/code&gt;中的内容, 贴到你的github中的sshkey管理.具体导航如下&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;(确认您登入了啊)点击github右上角的您的头像, 找到&lt;code&gt;settings&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;左边导航菜单招到&lt;code&gt;SSH and GPG keys&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;点击右上角 &lt;code&gt;New SSH key&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;随便输入标题&lt;/li&gt;
-&lt;li&gt;把复制的&lt;code&gt;test.pub&lt;/code&gt;内容贴到文本框中.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;本地配置ssh&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;找到你的用户目录, 一般在 &lt;code&gt;C:\Users\您的名字&lt;/code&gt;, 也可以使用下面步骤打开&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;win+r&lt;/code&gt; 打开运行, 输入&lt;code&gt;cmd&lt;/code&gt;, 此时打开了黑窗口&lt;/li&gt;
-&lt;li&gt;输入&lt;code&gt;explorer .&lt;/code&gt; 此时打开的就是你的用户目录了&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;在用户下新建&lt;code&gt;.ssh&lt;/code&gt;目录, windows不能新建, 可在刚打开的黑窗口中输入 &lt;code&gt;mkdir .ssh&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;复制第一步生成的&lt;code&gt;test test.pub&lt;/code&gt; 文件到此目录&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;新建 &lt;code&gt;config&lt;/code&gt; 文件, 并复制如下内容&lt;/p&gt;
-  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 对应github地址&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Host github.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;IdentityFile ~/.ssh/&lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;随便找自己一个仓库地址, 到黑窗口执行&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; git@github.com:your-name/your-repo.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;是不是稍微变快了点😄, 随便改点东西, commit push 发现是不是不用密码了? 😄&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一般的, 我们从github, 或是私有仓库gitlab中克隆代码, 都是使用 git clone &lt;a href=&quot;https://github.com/u/xxx.git&quot;&gt;https://github.com/u/xxx.git&lt;/a&gt;, https协议相比git, (git@github.com:u:/xx.git) 会慢很多, 而且要保存帐号密码到本地,才能实现免帐号密码登入. 使用ssh协议就方便很多了.&lt;/p&gt;
     
     </summary>
     
