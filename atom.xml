@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-10-31T14:34:10.274Z</updated>
+  <updated>2017-11-19T06:04:33.928Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql过程循环结果集</title>
+    <link href="http://vvotm.github.io/2017/11/13/mysql%E8%BF%87%E7%A8%8B%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%9C%E9%9B%86/"/>
+    <id>http://vvotm.github.io/2017/11/13/mysql过程循环结果集/</id>
+    <published>2017-11-13T15:30:36.000Z</published>
+    <updated>2017-11-19T06:04:33.928Z</updated>
+    
+    <content type="html">&lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现数据同步!&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;表1结构&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;template&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;unsigned&lt;/span&gt; auto_increment,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    price &lt;span class=&quot;built_in&quot;&gt;decimal&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;0.0&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    primary &lt;span class=&quot;keyword&quot;&gt;key&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;) &lt;span class=&quot;keyword&quot;&gt;engine&lt;/span&gt;=&lt;span class=&quot;keyword&quot;&gt;innodb&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;charset&lt;/span&gt;=utf8 &lt;span class=&quot;keyword&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;模版表&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;表2结构&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;table&lt;/span&gt; gifts (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;unsigned&lt;/span&gt; auto_increment,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tid &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;0&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    price &lt;span class=&quot;built_in&quot;&gt;decimal&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;0.0&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;varchar&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;32&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;名称&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    primary &lt;span class=&quot;keyword&quot;&gt;key&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;) &lt;span class=&quot;keyword&quot;&gt;engine&lt;/span&gt;=&lt;span class=&quot;keyword&quot;&gt;innodb&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;charset&lt;/span&gt;=utf8 &lt;span class=&quot;keyword&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;具体礼物表&quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;demo数据&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/mysql_procedure.jpg&quot; alt=&quot;demo&quot;&gt;&lt;/p&gt;
+&lt;p&gt;gifts表的tid关联的是template表的id, 现在要根据tid去获取template的price 同步gifts表的price字段.&lt;/p&gt;
+&lt;p&gt;方案1 (使用脚本语言, 如&lt;code&gt;php&lt;/code&gt;, &lt;code&gt;nodejs&lt;/code&gt;, &lt;code&gt;python&lt;/code&gt;…)实现&lt;/p&gt;
+&lt;p&gt;方案2 (使用mysql的过程实现). 本着最方便的原则&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;drop procedure if exists sync_price;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;delimiter $$&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;create procedure sync_price()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;begin&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare giftId int;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare tplId int;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare tplPrice decimal(8,2);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare isDone int default 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare giftCursor cursor for select id, tid from gifts; -- 声明游标&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    declare continue handler for not found set isDone = 1; -- 捕获 not found,设置isDone=1 表示循环完毕.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    open giftCursor;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    read_loop: loop -- 开始循环&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fetch giftCursor into giftId, tplId;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if isDone then&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            leave read_loop;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        end if;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        select price into tplPrice from template where id = tplId;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        select giftId, tplId, tplPrice; -- just for test&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        update gifts set price = tplPrice where id = giftId;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    end loop;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    close giftCursor;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;end;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$$&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;delimiter ;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;调用过程 &lt;code&gt;call sync_price()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意: 过程的游标必须在所有变量声明后, 再声明, 否则出现错误&lt;/strong&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现数据同步!&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="mysql, procedure, loop" scheme="http://vvotm.github.io/tags/mysql-procedure-loop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx路由匹配规则</title>
+    <link href="http://vvotm.github.io/2017/11/10/nginx%E8%B7%AF%E7%94%B1%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99/"/>
+    <id>http://vvotm.github.io/2017/11/10/nginx路由匹配规则/</id>
+    <published>2017-11-10T14:12:17.000Z</published>
+    <updated>2017-11-10T16:45:35.597Z</updated>
+    
+    <content type="html"></content>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="nginx, location" scheme="http://vvotm.github.io/tags/nginx-location/"/>
+    
+  </entry>
   
   <entry>
     <title>git合错分支解决方案</title>
@@ -678,96 +730,6 @@
     <summary type="html">
     
       &lt;p&gt;先说点对本地开发环境新得. 对于开发环境, 我个人还是偏喜欢在本地环境搭建, 如果本地环境是window, 最需要的是&lt;br&gt;文件名大小写敏感问题. 不知不觉踩了好几次坑了. 也曾想过跑个虚拟机跑开发环境, 代码通过共享解决(virtualbox, vagrant…), 本地环境和&lt;br&gt;线上环境一致的问题. 但真实用起来还是不爽. 前几天有个网友让班忙做个镜像, 本着助人为乐的态度就弄了.&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Golang 协程下载网站图片资源</title>
-    <link href="http://vvotm.github.io/2017/05/12/gospider/"/>
-    <id>http://vvotm.github.io/2017/05/12/gospider/</id>
-    <published>2017-05-12T14:18:38.000Z</published>
-    <updated>2017-05-12T14:47:07.269Z</updated>
-    
-    <content type="html">&lt;p&gt;开始之前, 今天5.12 为我们汶川大地震逝去的人默哀, 愿他们在天堂安好.&lt;br&gt;go语言的协程实战, 爬去网页后, 匹配对应网页上的图片, 对应每个图片开启一个协程去下载. 之前有做对比下载&lt;code&gt;http://www.zhuangbi.info/page=1~72&lt;/code&gt;页所有图片, 用php费时2分50多秒, 使用goroutine实现, 费时间7s多点, 这个差距还是挺可观的.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;项目地址&quot;&gt;&lt;a href=&quot;#项目地址&quot; class=&quot;headerlink&quot; title=&quot;项目地址&quot;&gt;&lt;/a&gt;项目地址&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;https://github.com/vvotm/gospider&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;可克隆代码go build 安装&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;或直接下载window版的main.exe直接使用&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;直接运行&lt;code&gt;main.exe&lt;/code&gt;查看帮助&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Uses: main.exe &amp;#123;url&amp;#125; [savepath] [totalPage]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;url: (must) etc. http://www.zhuangbi.info&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;savepath: (option) the path &lt;span class=&quot;built_in&quot;&gt;where&lt;/span&gt; you want save images&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;totalPage: (options) only url has page placeholder. &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; example:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    main.exe http://www.zhuangbi.info/?page=&amp;#123;page&amp;#125; ./tmp 10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;command&lt;/span&gt; will download all images from http://www.zhuangbi.info/?page=1 to http://www.zhuangbi.info/?page=10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot; class=&quot;headerlink&quot; title=&quot;实现原理&quot;&gt;&lt;/a&gt;实现原理&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;通过命令行的url, 匹配下载对应的网页内容, 做正则匹配到网页的img标签, 获取到图片地址, 在对应开启协程去下载图片保存.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;主要代码实现&lt;/p&gt;
-  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;var wg sync.WaitGroup&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;func Run(url string, path string, page string) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    regex := regexp.MustCompile(&lt;span class=&quot;string&quot;&gt;&quot;\\&amp;#123;page\\&amp;#125;&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    newPage, err := strconv.Atoi(page)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    except.ErrorHandler(err)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; newPage &amp;gt; 0 &amp;amp;&amp;amp; regex.FindAllString(url, -1) != nil &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i := 1; i &amp;lt;= newPage ; i++  &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            wg.Add(1)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            pageIndex := strconv.Itoa(i)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            newUrl := strings.Replace(url, &lt;span class=&quot;string&quot;&gt;&quot;&amp;#123;page&amp;#125;&quot;&lt;/span&gt;, pageIndex, -1)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            go fetch(newUrl, path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        wg.Add(1)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        go fetch(url, path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    wg.Wait()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;func fetch(url, path string)  &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    imgname := strconv.Itoa(rand.Int())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    lastSlashIndex := strings.LastIndex(url, &lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; lastSlashIndex != -1 &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        imgname = url[lastSlashIndex+1:]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    lastQutesIndex := strings.LastIndex(imgname, &lt;span class=&quot;string&quot;&gt;&quot;?&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; lastQutesIndex != -1 &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        imgname = imgname[:lastQutesIndex]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    _, err := os.Stat(path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; err != nil &amp;amp;&amp;amp; os.IsNotExist(err) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        os.Mkdir(path, 755)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    content := utils.FetchUrl(url)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    types := []string&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;jpg&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;png&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;gif&quot;&lt;/span&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    resultSet := &lt;span class=&quot;built_in&quot;&gt;type&lt;/span&gt;Match.GetImgSlice(content, -1, types)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; _, url := range(resultSet)  &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        wg.Add(1)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        go downloadImg(url, path)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    wg.Done()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;func downloadImg(url, path string)  &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fmt.Println(&lt;span class=&quot;string&quot;&gt;&quot;download image [&quot;&lt;/span&gt; + url + &lt;span class=&quot;string&quot;&gt;&quot;]&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    imgStr := utils.FetchUrl(url)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    lastSlashIndex := strings.LastIndex(url, &lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    filename := strings.Trim(path, &lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt;) + &lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt; + url[lastSlashIndex+1:]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fmt.Println(&lt;span class=&quot;string&quot;&gt;&quot;file:&quot;&lt;/span&gt; + filename)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    utils.WriteFile(imgStr, filename)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    wg.Done()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;后期优化&quot;&gt;&lt;a href=&quot;#后期优化&quot; class=&quot;headerlink&quot; title=&quot;后期优化&quot;&gt;&lt;/a&gt;后期优化&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;参数优化&lt;/li&gt;
-&lt;li&gt;正则匹配&lt;/li&gt;
-&lt;li&gt;panic优化处理&lt;/li&gt;
-&lt;li&gt;使用channel限制协程数, 目前没有限制&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;开始之前, 今天5.12 为我们汶川大地震逝去的人默哀, 愿他们在天堂安好.&lt;br&gt;go语言的协程实战, 爬去网页后, 匹配对应网页上的图片, 对应每个图片开启一个协程去下载. 之前有做对比下载&lt;code&gt;http://www.zhuangbi.info/page=1~72&lt;/code&gt;页所有图片, 用php费时2分50多秒, 使用goroutine实现, 费时间7s多点, 这个差距还是挺可观的.&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>debian8.2编译nginx和php7</title>
-    <link href="http://vvotm.github.io/2017/03/26/debian8%E7%BC%96%E8%AF%91nginx%E5%92%8Cphp7/"/>
-    <id>http://vvotm.github.io/2017/03/26/debian8编译nginx和php7/</id>
-    <published>2017-03-26T14:34:30.000Z</published>
-    <updated>2017-03-26T14:46:24.359Z</updated>
-    
-    <content type="html">&lt;p&gt;每次编译php都会有新的问题出现, 好累, 暂时记录下. 希望下次编译会快点.&lt;br&gt;本帖写给自己看的, 写的很简陋, 😄&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;准备环境&quot;&gt;&lt;a href=&quot;#准备环境&quot; class=&quot;headerlink&quot; title=&quot;准备环境&quot;&gt;&lt;/a&gt;准备环境&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;安装必要的编译器&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install build-essential&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;nginx&quot;&gt;&lt;a href=&quot;#nginx&quot; class=&quot;headerlink&quot; title=&quot;nginx&quot;&gt;&lt;/a&gt;nginx&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;安装pcre8, openssl-dev&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;编译nginx&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# ./configure --prefix=/opt/app/nginx --with-pcre --with-openssl&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# make &amp;amp;&amp;amp; make install&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;mariadb&quot;&gt;&lt;a href=&quot;#mariadb&quot; class=&quot;headerlink&quot; title=&quot;mariadb&quot;&gt;&lt;/a&gt;mariadb&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;偷个懒&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# apt-get  install mariadb-server-10.0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;php7&quot;&gt;&lt;a href=&quot;#php7&quot; class=&quot;headerlink&quot; title=&quot;php7&quot;&gt;&lt;/a&gt;php7&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;安装 libjpeg, libpng, freetype libcurl-dev zlib2 libxml libmcrypt libbz2 libz2-dev 每种发行版的名称不一样, 对应搜索吧!! 😄, 没办法&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;编译php7&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# ./configure --prefix=/opt/app/php7 --with-zlib-dir --with-freetype-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-mcrypt --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --enable-gd-native-ttf --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp  --with-kerberos --with-gettext --with-xmlrpc  --enable-opcache --enable-fpm&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# make &amp;amp;&amp;amp; make install&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;检验 &lt;code&gt;/opt/app/php7/bin/php -m&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;每次编译php都会有新的问题出现, 好累, 暂时记录下. 希望下次编译会快点.&lt;br&gt;本帖写给自己看的, 写的很简陋, 😄&lt;/p&gt;
     
     </summary>
     
