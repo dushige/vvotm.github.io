@@ -304,9 +304,9 @@
     <link href="http://vvotm.github.io/2017/11/13/mysql%E8%BF%87%E7%A8%8B%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%9C%E9%9B%86/"/>
     <id>http://vvotm.github.io/2017/11/13/mysql过程循环结果集/</id>
     <published>2017-11-13T15:30:36.000Z</published>
-    <updated>2017-11-19T06:04:33.928Z</updated>
+    <updated>2017-11-30T15:31:39.143Z</updated>
     
-    <content type="html">&lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现数据同步!&lt;/p&gt;
+    <content type="html">&lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现表2的冗余字段和表1的数据同步!&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;表1结构&lt;/p&gt;
 &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;template&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;unsigned&lt;/span&gt; auto_increment,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    price &lt;span class=&quot;built_in&quot;&gt;decimal&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;0.0&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    primary &lt;span class=&quot;keyword&quot;&gt;key&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;id&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;) &lt;span class=&quot;keyword&quot;&gt;engine&lt;/span&gt;=&lt;span class=&quot;keyword&quot;&gt;innodb&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;charset&lt;/span&gt;=utf8 &lt;span class=&quot;keyword&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;模版表&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -324,7 +324,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现数据同步!&lt;/p&gt;
+      &lt;p&gt;有个场景, 2张数据表, 表1模版表, 表2为具体实现表, 表2中有个字段是模版表的冗余字段, 现要求最快的方式实现表2的冗余字段和表1的数据同步!&lt;/p&gt;
     
     </summary>
     
