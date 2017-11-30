@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-11-22T15:06:26.663Z</updated>
+  <updated>2017-11-30T13:36:33.975Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux-awk</title>
+    <link href="http://vvotm.github.io/2017/11/30/linux-awk/"/>
+    <id>http://vvotm.github.io/2017/11/30/linux-awk/</id>
+    <published>2017-11-30T13:36:33.000Z</published>
+    <updated>2017-11-30T13:36:33.975Z</updated>
+    
+    <content type="html"></content>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>理解linux-sed 命令</title>
@@ -630,75 +646,6 @@
     
     
       <category term="golang, goroutine" scheme="http://vvotm.github.io/tags/golang-goroutine/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>apache2.4反向代理配置</title>
-    <link href="http://vvotm.github.io/2017/06/01/apache-reverse-proxy/"/>
-    <id>http://vvotm.github.io/2017/06/01/apache-reverse-proxy/</id>
-    <published>2017-06-01T13:31:51.000Z</published>
-    <updated>2017-06-01T15:05:47.907Z</updated>
-    
-    <content type="html">&lt;p&gt;今天是儿童节, 愿天下所有的宝宝都健康快乐的成长(我也是宝宝😄)….&lt;/p&gt;
-&lt;p&gt;回到正题: 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;场景再现&quot;&gt;&lt;a href=&quot;#场景再现&quot; class=&quot;headerlink&quot; title=&quot;场景再现&quot;&gt;&lt;/a&gt;场景再现&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;话不多说, 上一张图, 快速理解&lt;/p&gt;
-&lt;p&gt; &lt;img src=&quot;/images/httproxy/reverse_proxy.png&quot; alt=&quot;http reverse proxy&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;通过访问对应的路径, http代理过去&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Site: http://youdomain.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;WebSite1: http://youdomain.com/app1 http://localhost/app1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;WebSite2: http://youdomain.com/app2 http://localhost/app2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;apache2-4配置&quot;&gt;&lt;a href=&quot;#apache2-4配置&quot; class=&quot;headerlink&quot; title=&quot;apache2.4配置&quot;&gt;&lt;/a&gt;apache2.4配置&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;开启&lt;code&gt;mod_proxy&lt;/code&gt; &lt;code&gt;mod_proxy_http.so&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;编辑&lt;code&gt;http-vhost.conf&lt;/code&gt;&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ProxyPreserveHost On&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ProxyPass /app1 http://127.0.0.1:8888/app1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;nginx1-x配置&quot;&gt;&lt;a href=&quot;#nginx1-x配置&quot; class=&quot;headerlink&quot; title=&quot;nginx1.x配置&quot;&gt;&lt;/a&gt;nginx1.x配置&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编辑&lt;code&gt;nginx.conf&lt;/code&gt; 或对应vhost.conf文件&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;location /app1 &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    proxy_pass http://127.0.0.1:8888&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;创建8888端口监听http服务&quot;&gt;&lt;a href=&quot;#创建8888端口监听http服务&quot; class=&quot;headerlink&quot; title=&quot;创建8888端口监听http服务&quot;&gt;&lt;/a&gt;创建8888端口监听http服务&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;用golang快速搭建, 也可以使用nodejs, 都很方便&lt;/p&gt;
- &lt;figure class=&quot;highlight golang&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; main&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;fmt&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;net/http&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;UserInfo&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(w http.ResponseWriter, r *http.Request)&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fmt.Fprintf(w, &lt;span class=&quot;string&quot;&gt;&quot;Hello, I love, %s&quot;&lt;/span&gt;, r.URL.Path[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http.HandleFunc(&lt;span class=&quot;string&quot;&gt;&quot;/app1/hello&quot;&lt;/span&gt;, UserInfo)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    http.ListenAndServe(&lt;span class=&quot;string&quot;&gt;&quot;:8888&quot;&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;通过访问’&lt;a href=&quot;http://youdomain.com/app1/hello&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://youdomain.com/app1/hello&lt;/a&gt;‘, 会对应返回 Hello I love /app1/hello&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;fastcgi代理-杂谈&quot;&gt;&lt;a href=&quot;#fastcgi代理-杂谈&quot; class=&quot;headerlink&quot; title=&quot;fastcgi代理(杂谈)&quot;&gt;&lt;/a&gt;fastcgi代理(杂谈)&lt;/h2&gt;&lt;h3 id=&quot;apache-fastcgi-php-fpm处理php脚本语言&quot;&gt;&lt;a href=&quot;#apache-fastcgi-php-fpm处理php脚本语言&quot; class=&quot;headerlink&quot; title=&quot;apache fastcgi+php-fpm处理php脚本语言&quot;&gt;&lt;/a&gt;apache fastcgi+php-fpm处理php脚本语言&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;这个模式很少用, apache下使用php, 编译php时候, 指定&lt;code&gt;--with-apxs2&lt;/code&gt; 直接编译mod_php5模块.性能, 配置各方面都方便.&lt;br&gt;尽作了解吧&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;配置, 确保&lt;code&gt;mod_proxy.so&lt;/code&gt;, &lt;code&gt;mod_proxy_fcgi.so&lt;/code&gt;模块已经加载, document_root注意cgi变量&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ProxyPassMatch &lt;span class=&quot;string&quot;&gt;&quot;^/app1/.*\.php(/.*)?$&quot;&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;fcgi://localhost:9000/d:/workspace/&quot;&lt;/span&gt; enablereuse=on&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;nginx-fastcgi代理php-fpm处理php脚本语言&quot;&gt;&lt;a href=&quot;#nginx-fastcgi代理php-fpm处理php脚本语言&quot; class=&quot;headerlink&quot; title=&quot;nginx fastcgi代理php-fpm处理php脚本语言&quot;&gt;&lt;/a&gt;nginx fastcgi代理php-fpm处理php脚本语言&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;nginx没有模块处理php, 只能通过php-fpm或php-cgi.exe处理php脚本文件&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;基本配置信息&lt;/p&gt;
- &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;location ~ \.php$ &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fastcgi_pass   127.0.0.1:9000;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fastcgi_index  index.php;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    fastcgi_param  SCRIPT_FILENAME  &lt;span class=&quot;variable&quot;&gt;$document_root&lt;/span&gt;&lt;span class=&quot;variable&quot;&gt;$fastcgi_script_name&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    include        fastcgi_params;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;http代理和fastcgi代理是2个完全不同的机制, 注意区分&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;欢迎拍砖😄&lt;/strong&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天是儿童节, 愿天下所有的宝宝都健康快乐的成长(我也是宝宝😄)….&lt;/p&gt;
-&lt;p&gt;回到正题: 假设你有多个网站, 但只有一个域名, 如何实现访问2个对应网站. 1, 通过方向代理实现了.&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Apache, Reverse, Proxy" scheme="http://vvotm.github.io/tags/Apache-Reverse-Proxy/"/>
     
   </entry>
   
