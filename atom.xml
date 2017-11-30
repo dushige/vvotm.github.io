@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-11-30T15:20:24.352Z</updated>
+  <updated>2017-11-30T15:24:00.846Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>理解linux-awk</title>
+    <title>理解linux-awk命令</title>
     <link href="http://vvotm.github.io/2017/11/30/linux-awk/"/>
     <id>http://vvotm.github.io/2017/11/30/linux-awk/</id>
     <published>2017-11-30T13:36:33.000Z</published>
-    <updated>2017-11-30T15:20:24.352Z</updated>
+    <updated>2017-11-30T15:24:00.846Z</updated>
     
     <content type="html">&lt;p&gt;AWK是一门古老的 linux shell 语言。每个unix-like系统都默认安装, linux下主要是 gawk这个版本。awk有着其独特的魅力。来简单的学习下它。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
