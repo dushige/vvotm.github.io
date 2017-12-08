@@ -172,7 +172,7 @@
 <p>awk数组的使用, (计算网站nginx访问日志的ip请求量)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">'&#123;ipList[$1]++&#125; END&#123; for (ipAddr in ipList) &#123;printf("ip地址:%s 访问数量:%d\n", ipAddr, ipList[ipAddr])&#125;&#125;'</span> &lt; /var/<span class="built_in">log</span>/nginx/access.log</span><br></pre></td></tr></table></figure>
 <p><a href="http://www.grymoire.com/Unix/Awk.html#uh-26" target="_blank" rel="external">参考原帖</a></p>
-</div></article></div></section><footer><div class="paginator"><a href="/2017/11/28/python解码unicode字符/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'superwm';
+</div></article></div></section><footer><div class="paginator"><a href="/2017/12/07/bash脚本定期创建MySQL增量表/" class="prev">PREV</a><a href="/2017/11/28/python解码unicode字符/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'superwm';
 var disqus_identifier = '2017/11/30/linux-awk/';
 var disqus_title = '理解linux-awk命令';
 var disqus_url = 'http://vvotm.github.io/2017/11/30/linux-awk/';

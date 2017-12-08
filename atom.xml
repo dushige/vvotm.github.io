@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vvotm.github.io/"/>
-  <updated>2017-11-30T15:24:00.846Z</updated>
+  <updated>2017-12-08T15:25:45.219Z</updated>
   <id>http://vvotm.github.io/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>bash脚本定期创建MySQL增量表</title>
+    <link href="http://vvotm.github.io/2017/12/07/bash%E8%84%9A%E6%9C%AC%E5%AE%9A%E6%9C%9F%E5%88%9B%E5%BB%BAMySQL%E5%A2%9E%E9%87%8F%E8%A1%A8/"/>
+    <id>http://vvotm.github.io/2017/12/07/bash脚本定期创建MySQL增量表/</id>
+    <published>2017-12-07T15:18:18.000Z</published>
+    <updated>2017-12-08T15:25:45.219Z</updated>
+    
+    <content type="html">&lt;p&gt;在日常业务中, 会将mysql表根据日期创建分表, 最简单的方法就是写个脚本每个月定时跑一遍创建下一个月的增量表。编写脚本有很多，这里就介绍用bash来实现。个人认为这是最快， 代码量、依赖最少的方法。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;bash优点是代码量少，简单。但依赖了&lt;code&gt;mysql&lt;/code&gt;客户端(并不是要求安装MySQL服务，简单的方法就是从安装好MySQL服务的服务器，将&lt;code&gt;msyql&lt;/code&gt;文件拷贝下来就好)。&lt;/p&gt;
+&lt;p&gt;废话不多说了, 贴码&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# @author: luowen&amp;lt;bigpao.luo@gmail.com&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# @desc: 自动创建数据库日期增量表&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# @time: 2017-12-06&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MYSQL_HOST=127.0.0.1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MYSQL_USER=root&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MYSQL_PWD=111111&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MYSQL_PORT=3306&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;TABLE_LIST=(&lt;span class=&quot;variable&quot;&gt;$1&lt;/span&gt;) &lt;span class=&quot;comment&quot;&gt;# 以参数的形式接受表名字&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$TABLE_LIST&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;resultCode=0 &lt;span class=&quot;comment&quot;&gt;# 是否成功标识&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; table_prefix &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$&amp;#123;TABLE_LIST[*]&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    pre_table=&lt;span class=&quot;variable&quot;&gt;$table_prefix&lt;/span&gt;$(date &lt;span class=&quot;string&quot;&gt;&quot;+%Y%m&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    new_table=&lt;span class=&quot;variable&quot;&gt;$table_prefix&lt;/span&gt;$(date &lt;span class=&quot;_&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;+1 month&quot;&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;+%Y%m&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    sql=&lt;span class=&quot;string&quot;&gt;&quot;mysql -u&lt;span class=&quot;variable&quot;&gt;$&amp;#123;MYSQL_USER&amp;#125;&lt;/span&gt; -h&lt;span class=&quot;variable&quot;&gt;$&amp;#123;MYSQL_HOST&amp;#125;&lt;/span&gt; -P&lt;span class=&quot;variable&quot;&gt;$&amp;#123;MYSQL_PORT&amp;#125;&lt;/span&gt; -p&lt;span class=&quot;variable&quot;&gt;$&amp;#123;MYSQL_PWD&amp;#125;&lt;/span&gt; -e &#39;create table &lt;span class=&quot;variable&quot;&gt;$&amp;#123;new_table&amp;#125;&lt;/span&gt; like &lt;span class=&quot;variable&quot;&gt;$&amp;#123;pre_table&amp;#125;&lt;/span&gt;&#39;&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$sql&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;#eval $sql&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; [ $? &lt;span class=&quot;_&quot;&gt;-gt&lt;/span&gt; 0 ]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;then&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;variable&quot;&gt;$resultCode&lt;/span&gt;=$?&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;variable&quot;&gt;$resultCode&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;执行:&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ bash table-generate.sh &lt;span class=&quot;string&quot;&gt;&quot;log.userlogin_log_ log.userip_log_&quot;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# 参数已空格隔开&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;PS:bash的数组没有关联数组&lt;/strong&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在日常业务中, 会将mysql表根据日期创建分表, 最简单的方法就是写个脚本每个月定时跑一遍创建下一个月的增量表。编写脚本有很多，这里就介绍用bash来实现。个人认为这是最快， 代码量、依赖最少的方法。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="bash, mysql" scheme="http://vvotm.github.io/tags/bash-mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>理解linux-awk命令</title>
@@ -794,34 +822,6 @@
     
     
       <category term="golang, http, server" scheme="http://vvotm.github.io/tags/golang-http-server/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何选择h5标签</title>
-    <link href="http://vvotm.github.io/2017/06/04/%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9h5%E6%A0%87%E7%AD%BE/"/>
-    <id>http://vvotm.github.io/2017/06/04/如何选择h5标签/</id>
-    <published>2017-06-04T15:41:12.000Z</published>
-    <updated>2017-06-04T15:53:36.766Z</updated>
-    
-    <content type="html">&lt;p&gt;最近想弄个h5网站, 学习下h5页面的开发, 就html5标签选择做个小笔记吧&lt;br&gt;HTML5页面多出了很多标签, &lt;code&gt;header&lt;/code&gt;, &lt;code&gt;nav&lt;/code&gt;, &lt;code&gt;article&lt;/code&gt;, &lt;code&gt;footer&lt;/code&gt; 等等, 我们要如何选择它们呢?&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;如何选择html5标签&quot;&gt;&lt;a href=&quot;#如何选择html5标签&quot; class=&quot;headerlink&quot; title=&quot;如何选择html5标签&quot;&gt;&lt;/a&gt;如何选择html5标签&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;废话不多说. 上图&lt;/p&gt;
-&lt;p&gt; &lt;img src=&quot;/images/h5d-sectioning-flowchart.png&quot; alt=&quot;html5-elementTag-choose&quot;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;😄😄😄😄😄&lt;/strong&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近想弄个h5网站, 学习下h5页面的开发, 就html5标签选择做个小笔记吧&lt;br&gt;HTML5页面多出了很多标签, &lt;code&gt;header&lt;/code&gt;, &lt;code&gt;nav&lt;/code&gt;, &lt;code&gt;article&lt;/code&gt;, &lt;code&gt;footer&lt;/code&gt; 等等, 我们要如何选择它们呢?&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="html5" scheme="http://vvotm.github.io/tags/html5/"/>
     
   </entry>
   
