@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://vvotm.github.io/2018/03/20/%E5%9C%A8openresty%E4%B8%AD%E6%98%AF%E4%BD%BF%E7%94%A8lua%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E6%96%B0%E8%80%81%E8%B7%AF%E7%94%B1%E5%B9%B3%E6%BB%91%E5%8D%87%E7%BA%A7/</loc>
+    
+    <lastmod>2018-03-20T16:07:32.002Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://vvotm.github.io/2018/03/17/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E7%94%B5%E8%AF%9D%E5%BD%92%E5%B1%9E%E5%9C%B0/</loc>
     
     <lastmod>2018-03-19T12:00:03.764Z</lastmod>
@@ -233,13 +240,6 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/12/28/%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0hosts%E6%96%87%E4%BB%B6-%E8%AE%BF%E9%97%AEgoogle-facebook/</loc>
-    
-    <lastmod>2017-02-09T23:09:06.584Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://vvotm.github.io/2016/09/10/%E7%AE%80%E5%8D%95%E7%9A%84mysql%E8%BF%87%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E8%A1%8C%E7%B4%AF%E5%8A%A0/</loc>
     
     <lastmod>2017-02-09T23:09:06.584Z</lastmod>
@@ -247,14 +247,21 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/04/13/%E6%97%B6%E9%97%B4%E6%88%B3%E8%BD%AC%E6%97%A5%E6%9C%9F%EF%BC%8C%E6%97%A5%E6%9C%9F%E8%A3%85%E6%97%B6%E9%97%B4%E6%88%B3%E5%BF%AB%E9%80%9Ftempermonkey%E8%84%9A%E6%9C%AC/</loc>
+    <loc>http://vvotm.github.io/2015/12/28/%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0hosts%E6%96%87%E4%BB%B6-%E8%AE%BF%E9%97%AEgoogle-facebook/</loc>
+    
+    <lastmod>2017-02-09T23:09:06.584Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://vvotm.github.io/2016/05/30/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B06%E4%BD%8D%E6%95%B0%E8%A1%A8%E7%A4%BA%E7%99%BE%E4%BA%BF/</loc>
     
     <lastmod>2017-02-09T23:09:06.583Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/05/30/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B06%E4%BD%8D%E6%95%B0%E8%A1%A8%E7%A4%BA%E7%99%BE%E4%BA%BF/</loc>
+    <loc>http://vvotm.github.io/2016/04/13/%E6%97%B6%E9%97%B4%E6%88%B3%E8%BD%AC%E6%97%A5%E6%9C%9F%EF%BC%8C%E6%97%A5%E6%9C%9F%E8%A3%85%E6%97%B6%E9%97%B4%E6%88%B3%E5%BF%AB%E9%80%9Ftempermonkey%E8%84%9A%E6%9C%AC/</loc>
     
     <lastmod>2017-02-09T23:09:06.583Z</lastmod>
     
@@ -268,14 +275,14 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/11/13/%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AApromise%E5%AF%B9%E8%B1%A1/</loc>
+    <loc>http://vvotm.github.io/2016/05/31/%E5%8D%95%E7%82%B9%E7%99%BB%E5%85%A5(SSO)%E5%AE%9E%E7%8E%B0/</loc>
     
     <lastmod>2017-02-09T23:09:06.581Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/05/31/%E5%8D%95%E7%82%B9%E7%99%BB%E5%85%A5(SSO)%E5%AE%9E%E7%8E%B0/</loc>
+    <loc>http://vvotm.github.io/2016/11/13/%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AApromise%E5%AF%B9%E8%B1%A1/</loc>
     
     <lastmod>2017-02-09T23:09:06.581Z</lastmod>
     
@@ -317,14 +324,14 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/10/24/qccr-dinner/</loc>
+    <loc>http://vvotm.github.io/2015/07/26/redis%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</loc>
     
     <lastmod>2017-02-09T23:09:06.578Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/07/26/redis%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</loc>
+    <loc>http://vvotm.github.io/2016/10/24/qccr-dinner/</loc>
     
     <lastmod>2017-02-09T23:09:06.578Z</lastmod>
     
@@ -345,7 +352,7 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/09/15/mysql%E4%B8%BB%E4%BB%8E%E5%A4%87%E4%BB%BD/</loc>
+    <loc>http://vvotm.github.io/2016/10/31/phpstorm-debug/</loc>
     
     <lastmod>2017-02-09T23:09:06.576Z</lastmod>
     
@@ -359,14 +366,14 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/10/31/phpstorm-debug/</loc>
+    <loc>http://vvotm.github.io/2016/09/15/mysql%E4%B8%BB%E4%BB%8E%E5%A4%87%E4%BB%BD/</loc>
     
     <lastmod>2017-02-09T23:09:06.576Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/11/26/maven%E6%89%93%E5%8C%85jar/</loc>
+    <loc>http://vvotm.github.io/2016/09/13/js%E5%A4%9A%E5%AF%B9%E8%B1%A1%E6%95%B0%E7%BB%84%E5%94%AF%E4%B8%80%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2017-02-09T23:09:06.575Z</lastmod>
     
@@ -380,7 +387,7 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/09/13/js%E5%A4%9A%E5%AF%B9%E8%B1%A1%E6%95%B0%E7%BB%84%E5%94%AF%E4%B8%80%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://vvotm.github.io/2016/11/26/maven%E6%89%93%E5%8C%85jar/</loc>
     
     <lastmod>2017-02-09T23:09:06.575Z</lastmod>
     
@@ -390,13 +397,6 @@
     <loc>http://vvotm.github.io/2016/11/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85/</loc>
     
     <lastmod>2017-02-09T23:09:06.574Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://vvotm.github.io/2016/11/28/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</loc>
-    
-    <lastmod>2017-02-09T23:09:06.573Z</lastmod>
     
   </url>
   
@@ -415,9 +415,9 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2016/05/08/chrome-chromium%E6%8F%92%E4%BB%B6%E4%B9%8Bvimium%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
+    <loc>http://vvotm.github.io/2016/11/28/java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</loc>
     
-    <lastmod>2017-02-09T23:09:06.572Z</lastmod>
+    <lastmod>2017-02-09T23:09:06.573Z</lastmod>
     
   </url>
   
@@ -429,9 +429,9 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/09/29/RazorSQL-%E6%B3%A8%E5%86%8C%E7%A0%81/</loc>
+    <loc>http://vvotm.github.io/2016/05/08/chrome-chromium%E6%8F%92%E4%BB%B6%E4%B9%8Bvimium%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
     
-    <lastmod>2017-02-09T23:09:06.571Z</lastmod>
+    <lastmod>2017-02-09T23:09:06.572Z</lastmod>
     
   </url>
   
@@ -443,14 +443,21 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/12/22/MySQL%E5%8D%95%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B7%91%E5%A4%9A%E4%B8%AA%E5%AE%9E%E4%BE%8B%E5%AD%90/</loc>
+    <loc>http://vvotm.github.io/2015/09/29/RazorSQL-%E6%B3%A8%E5%86%8C%E7%A0%81/</loc>
+    
+    <lastmod>2017-02-09T23:09:06.571Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://vvotm.github.io/2015/12/25/PHP5-4-Trait-%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2017-02-09T23:09:06.570Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/12/25/PHP5-4-Trait-%E4%BD%BF%E7%94%A8/</loc>
+    <loc>http://vvotm.github.io/2015/12/22/MySQL%E5%8D%95%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B7%91%E5%A4%9A%E4%B8%AA%E5%AE%9E%E4%BE%8B%E5%AD%90/</loc>
     
     <lastmod>2017-02-09T23:09:06.570Z</lastmod>
     
@@ -478,14 +485,14 @@
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/08/30/CentOS6-5-Kernel2-6-Compile-PHP5-6-1/</loc>
+    <loc>http://vvotm.github.io/2015/07/26/CentOS-%E6%97%A0%E4%BA%BA%E5%80%BC%E5%AE%88%E5%AE%89%E8%A3%85-ftp%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2017-02-09T23:09:06.563Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://vvotm.github.io/2015/07/26/CentOS-%E6%97%A0%E4%BA%BA%E5%80%BC%E5%AE%88%E5%AE%89%E8%A3%85-ftp%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://vvotm.github.io/2015/08/30/CentOS6-5-Kernel2-6-Compile-PHP5-6-1/</loc>
     
     <lastmod>2017-02-09T23:09:06.563Z</lastmod>
     
